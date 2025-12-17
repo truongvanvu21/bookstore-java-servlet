@@ -38,55 +38,54 @@ public class sachAdminController extends HttpServlet {
 			request.getRequestDispatcher("SachAdmin.jsp").forward(request, response);
 		}
 		else {
-			 DiskFileItemFactory factory = new DiskFileItemFactory();
 			 DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
 			 ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
-			 String dirUrl1 = request.getServletContext().getRealPath("") +  File.separator + "files";
+			 String dirUrl1 = request.getServletContext().getRealPath("") +  File.separator + "image_sach";
 			 response.getWriter().println(dirUrl1);
 			 
 			try {
 
 				List<FileItem> fileItems = upload.parseRequest(request);//Lấy về các đối tượng gửi lên
 				//duyệt qua các đối tượng gửi lên từ client gồm file và các control
-	for (FileItem fileItem : fileItems) {
-	 			 if (!fileItem.isFormField()) {//Nếu ko phải các control=>upfile lên
-					// xử lý file
-					String nameimg = fileItem.getName();
-					if (!nameimg.equals("")) {
-				           //Lấy đường dẫn hiện tại, chủ ý xử lý trên dirUrl để có đường dẫn đúng
-						String dirUrl = request.getServletContext().getRealPath("") +  File.separator + "files";
-						File dir = new File(dirUrl);
-						if (!dir.exists()) {//nếu ko có thư mục thì tạo ra
-							dir.mkdir();
+				for (FileItem fileItem : fileItems) {
+		 			 if (!fileItem.isFormField()) {//Nếu ko phải các control=>upfile lên
+						// xử lý file
+						String nameimg = fileItem.getName();
+						if (!nameimg.equals("")) {
+					           //Lấy đường dẫn hiện tại, chủ ý xử lý trên dirUrl để có đường dẫn đúng
+							String dirUrl = request.getServletContext().getRealPath("") +  File.separator + "image_sach";
+							File dir = new File(dirUrl);
+							if (!dir.exists()) {//nếu ko có thư mục thì tạo ra
+								dir.mkdir();
+							}
+						           String fileImg = dirUrl + File.separator + nameimg;
+						           File file = new File(fileImg);//tạo file
+						            try {
+						               fileItem.write(file);//lưu file
+						              System.out.println("UPLOAD THÀNH CÔNG...!");
+						              System.out.println("Đường dẫn lưu file là: "+dirUrl);
+									 } catch (Exception e) {
+									    e.printStackTrace();
+									}
 						}
-					           String fileImg = dirUrl + File.separator + nameimg;
-					           File file = new File(fileImg);//tạo file
-					            try {
-					               fileItem.write(file);//lưu file
-					              System.out.println("UPLOAD THÀNH CÔNG...!");
-					              System.out.println("Đường dẫn lưu file là: "+dirUrl);
-					 } catch (Exception e) {
-					    e.printStackTrace();
+		 			 }	
+					else//Neu la control
+					{
+						String tentk=fileItem.getFieldName();
+						if(tentk.equals("txtmasach"))
+							response.getWriter().println(fileItem.getString("UTF-8"));
+						if(tentk.equals("txttensach"))
+							response.getWriter().println(fileItem.getString("UTF-8"));
+						if(tentk.equals("txtsoluong"))
+							response.getWriter().println(fileItem.getString());
+						if(tentk.equals("btnxoa")) {
+							String dirUrl = request.getServletContext().getRealPath("") + File.separator + "files";
+							File f1 = new File(dirUrl + "//ĐKBHXH - Trương Văn Vũ.docx");
+							f1.delete();
+							System.out.println("Da xoa");
+						}
+						
 					}
-				}
-			 }
-				else//Neu la control
-				{
-					String tentk=fileItem.getFieldName();
-					if(tentk.equals("txtmasach"))
-						response.getWriter().println(fileItem.getString("UTF-8"));
-					if(tentk.equals("txttensach"))
-						response.getWriter().println(fileItem.getString("UTF-8"));
-					if(tentk.equals("txtsoluong"))
-						response.getWriter().println(fileItem.getString());
-					if(tentk.equals("btnxoa")) {
-						String dirUrl = request.getServletContext().getRealPath("") + File.separator + "files";
-						File f1 = new File(dirUrl + "//NhanVienTren10Nam.txt");
-						f1.delete();
-						System.out.println("Da xoa");
-					}
-					
-				}
 				}
 			
 			} catch (FileUploadException e) {

@@ -12,12 +12,20 @@ public class SachBO {
 		return ds;
 	}
 	
+	public int getTongSach(String ml, String key) throws Exception {
+		return sdao.getTongSach(ml, key);
+	}
+	
+	public int getTongSachOfAdmin(String key) throws Exception {
+		return sdao.getTongSachOfAdmin(key);
+	}
+	
 	public ArrayList<Sach> getDanhSachPhanTrang(int page, int pageSize, String ml, String key) throws Exception {
 		return sdao.getDanhSachPhanTrang(page, pageSize, ml, key);
 	}
 	
-	public int getTongSach(String ml, String key) throws Exception {
-		return sdao.getTongSach(ml, key);
+	public ArrayList<Sach> getDanhSachPhanTrangOfAdmin(int page, int pageSize, String key) throws Exception {
+		return sdao.getDanhSachPhanTrangOfAdmin(page, pageSize, key);
 	}
 	
 	public ArrayList<Sach> TimKiemMa(String maLoai) throws Exception {
@@ -28,5 +36,17 @@ public class SachBO {
 	public ArrayList<Sach> TimKiemSearch(String key) throws Exception {
 		ds = sdao.TimKiemSearch(key);
 		return ds;
+	}
+	
+	public int addSach(Sach s) throws Exception {
+		return sdao.addSach(s);
+	}
+	
+	public int updateSach(Sach s) throws Exception {
+		return sdao.updateSach(s);
+	}
+	
+	public int deleteSach(String maLoai) throws Exception {
+		return sdao.deleteSach(maLoai);
 	}
 }

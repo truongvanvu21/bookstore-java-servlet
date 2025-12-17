@@ -170,7 +170,7 @@
 				for(Sach s : dsSach){
 			%>	
 					<div class="col-sm-3 ">
-						<img src="<%= s.getAnh() %>" alt="<%= s.getTenSach() %>"><br>
+						<img src="<%= s.getAnh() %>" alt="<%= s.getTenSach() %>" style="max-width: 200px; max-height: 240px; object-fit:cover"><br>
 						<%= s.getTenSach()%><br>
 						<%= s.getTacGia()%><br>
 						<%= s.getGia()%><br>
@@ -180,7 +180,7 @@
 					</div>
 			<%} %>
 			
-			<div class ="col-sm-12 mt-3">
+			<%-- <div class ="col-sm-12 mt-3">
 				<ul class="pagination d-flex">
 					<%
 						int totalPage = (int) request.getAttribute("totalPage");
@@ -197,6 +197,65 @@
 							</li>
 					<%	} %>
 				</ul>
+			</div> --%>
+			
+			<div class="col-sm-12 mt-3">
+			    <ul class="pagination justify-content-center flex-wrap">
+			        <%
+			            int totalPage = (int) request.getAttribute("totalPage");
+			            int currentPage = (int) request.getAttribute("page");
+			            String mlLink = (String) request.getAttribute("mlLink");
+			            String keyLink = (String) request.getAttribute("keyLink");
+			            int delta = 1;
+			        %>
+			        <%-- Button lùi 1 trang --%>
+			        <li class="page-item <%= (currentPage == 1 ? "disabled" : "") %>">
+			            <a class="page-link" href="tcController?page=<%= currentPage - 1 %>&ml=<%= mlLink %>&input_search=<%= keyLink %>">
+			                <i class="bi bi-caret-left-fill"></i>
+			            </a>
+			        </li>
+			        
+			        <%-- Trang đầu --%>
+			        <li class="page-item <%= (currentPage == 1 ? "active" : "") %>">
+			            <a class="page-link" href="tcController?page=1&ml=<%= mlLink %>&input_search=<%= keyLink %>">
+			                1
+			            </a>
+			        </li>
+			        <%-- Dấu ... bên trái --%>
+			        <% if (currentPage > delta + 2) {%>
+			            <li class="page-item disabled">
+			                <span class="page-link">...</span>
+			            </li>
+			        <% }%>	
+			        <%-- 2 trang 2 bên trang hiện tại --%>
+			        <% for (int i = Math.max(2,currentPage - delta); i <= Math.min(totalPage - 1,currentPage + delta); i++){ %>
+			            <li class="page-item <%= (i == currentPage ? "active" : "") %>">
+			                <a class="page-link" href="tcController?page=<%= i %>&ml=<%= mlLink %>&input_search=<%= keyLink %>">
+			                    <%= i %>
+			                </a>
+			            </li>
+			        <% }%>
+			        <%-- Dấu ... bên phải --%>
+			        <% if (currentPage < totalPage - delta - 1) {%>
+			            <li class="page-item disabled">
+			                <span class="page-link">...</span>
+			            </li>
+			        <%	}%>
+			        <%-- Trang cuối --%>
+			        <% if (totalPage > 1) {%>
+			        <li class="page-item <%= (currentPage == totalPage ? "active" : "") %>">
+			            <a class="page-link" href="tcController?page=<%= totalPage %>&ml=<%= mlLink %>&input_search=<%= keyLink %>">
+			                <%= totalPage %>
+			            </a>
+			        </li>
+			        <% }%>
+			        
+			        <li class="page-item <%= (currentPage == totalPage ? "disabled" : "") %>">
+			            <a class="page-link" href="tcController?page=<%= currentPage + 1 %>&ml=<%= mlLink %>&input_search=<%= keyLink %>">
+			                <i class="bi bi-caret-right-fill"></i>
+			            </a>
+			        </li>
+			    </ul>
 			</div>
 		</div>
 	</div>

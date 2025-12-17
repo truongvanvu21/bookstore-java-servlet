@@ -99,8 +99,7 @@
             </div>
         </nav>
 
-        <div class="col-md-9 ms-sm-auto col-lg-10 px-4 py-4">
-			<h3 class="mb-4"><i class="fas fa-list me-2"></i>Quản lý loại sách</h3>
+        <div class="col-md-9 ms-sm-auto col-lg-10 px-4">
 			<p style="color:green;">
 		  		<%= (request.getAttribute("success") != null ? request.getAttribute("success") : "") %>
 		  	</p>
@@ -108,8 +107,8 @@
 		  		<%= (request.getAttribute("error") != null ? request.getAttribute("error") : "") %>
 		  	</p>
             <!-- form thêm loại -->
-            <div class="card card-custom mb-4 p-3">
-                <h5 class="mb-3">Thêm loại mới</h5>
+            <div class="card card-custom mb-3 p-3">
+                <h5 class="mb-2 text-center">Thêm loại mới</h5>
                 <form action="qlLoaiAdminController" method="post" class="row g-3">
                     <input type="hidden" name="action" value="add">
                     <div class="col-md-4">
@@ -120,9 +119,8 @@
                         <label class="form-label">Tên loại</label>
                         <input type="text" name="tenloai_add" class="form-control" required>
                     </div>
-
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" name="btnloai_add" class="btn btn-primary w-100">
+                        <button type="submit" name="btnloai_add" class="btn btn-success w-100">
                         	<i class="fas fa-plus-circle"></i> Thêm
                         </button>
                     </div>
@@ -132,7 +130,7 @@
             <!-- bảng thống kê loại -->
             <div class="card card-custom">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Danh sách đơn hàng ngày hôm nay</h5>
+                    <h5 class="mb-0"><i class="fa-solid fa-table-list"></i>Danh sách loại</h5>
                 </div>
                 <div class="card-body table-responsive">
                       <table class="table table-hover table-bordered align-middle">
@@ -183,49 +181,47 @@
                       	</tbody>
                       </table>
                       
-                       <% for(Loai l : dsLoai){ %>						
-					<!-- Modal sửa-->
+                    <!-- Modal sửa-->
+                    <% for(Loai l : dsLoai){ %>						
 					<div class="modal fade" id="formSua<%=l.getMaLoai().replaceAll(" ", "")%>" tabindex="-1">
-					  <div class="modal-dialog modal-dialog-centered">
+					  <div class="modal-dialog">
 					    <div class="modal-content">
 					    	<form method="post" action="qlLoaiAdminController">						
-						      <div class="modal-header">
-						        <h5 class="modal-title">Chỉnh sửa</h5>
-						        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-						      </div>
+							      <div class="modal-header">
+							        <h5 class="modal-title fw-bold fs-3">Chỉnh sửa</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							      </div>
 						
-						      <div class="modal-body">
-
-						        	<input type="hidden" name="action" value="update">
-						        	<div class="col-md-6">
-						        		<label class="form-label">Mã loại</label>
-						               <input type="text" name="maloai_update" class="form-control" readonly value="<%=l.getMaLoai()%>" required>
-						           </div>
-						        	<div class="col-md-6">
-						               <label class="form-label">Tên loại</label>
-						               <input type="text" name="tenloai_update" class="form-control" value="<%=l.getTenLoai()%>" required>
-						           </div>
-
-						      </div>
+							      <div class="modal-body">
+									<input type="hidden" name="action" value="update">
+									<div class="col-md-6">
+										<label class="form-label">Mã loại</label>
+									      <input type="text" name="maloai_update" class="form-control" readonly value="<%=l.getMaLoai()%>" required>
+									</div>
+									<div class="col-md-6">
+									      <label class="form-label">Tên loại</label>
+									      <input type="text" name="tenloai_update" class="form-control" value="<%=l.getTenLoai()%>" required>
+									</div>
+							      </div>
 						
-					            <div class="modal-footer">
-					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-					                <button type="submit" class="btn btn-success">Cập nhật</button>
-					            </div>
-					        </form>	 					
+								<div class="modal-footer">
+								    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+								    <button type="submit" class="btn btn-warning">Cập nhật</button>
+								</div>
+					       </form>	 					
 					    </div>
 					  </div>
 					</div>
 					<% } %>
 					
-					<% for(Loai l : dsLoai){ %>						
 					<!-- Modal delete-->
+					<% for(Loai l : dsLoai){ %>						
 					<div class="modal fade" id="formXoa<%=l.getMaLoai().replaceAll(" ", "")%>" tabindex="-1">
 					  <div class="modal-dialog modal-dialog-centered">
 					    <div class="modal-content">
 					    	<form method="post" action="qlLoaiAdminController">						
 						      <div class="modal-header">
-						        <h5 class="modal-title">Xóa</h5>
+						        <h5 class="modal-title fw-bold fs-3">Xóa</h5>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 						      </div>	
 						      					
@@ -240,7 +236,7 @@
 						      
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-					                <button type="submit" class="btn btn-danger">Có</button>
+					                <button type="submit" class="btn btn-danger">Xóa</button>
 					            </div>
 					        </form>	 					
 					    </div>
