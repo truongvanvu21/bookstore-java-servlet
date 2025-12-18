@@ -153,7 +153,7 @@ public class SachDAO {
 			sql += "AND maloai=? ";
 		}
 		if(key != null) {
-			sql += "AND tensach LIKE ? ";
+			sql += "AND ( tensach LIKE ? OR tacgia LIKE ? ) ";
 		}		
 		sql += "ORDER BY masach OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 		
@@ -164,6 +164,7 @@ public class SachDAO {
 	        ps.setString(index++, ml);
 	    }
 	    if (key != null && !key.isEmpty()) {
+	        ps.setString(index++, "%" + key + "%");
 	        ps.setString(index++, "%" + key + "%");
 	    }
 		

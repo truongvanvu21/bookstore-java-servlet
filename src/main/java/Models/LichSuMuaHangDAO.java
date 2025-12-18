@@ -28,35 +28,6 @@ public class LichSuMuaHangDAO {
 		}
 		return lst;
 	}
-	
-//	public ArrayList<LichSuMuaHang> getSach(String userName, String password) throws Exception {
-//		ArrayList<LichSuMuaHang> lsmh = new ArrayList();
-//		KetNoi kn = new KetNoi();
-//		kn.ketnoi();
-//		String sql = "SELECT * FROM VLS WHERE tendn = ? AND pass = ?";
-//		try(PreparedStatement ps = kn.cn.prepareStatement(sql)){
-//			ps.setString(1, userName);
-//			ps.setString(2, password);
-//			ResultSet rs = ps.executeQuery();
-//			
-//			while(rs.next()) {
-//				String makh = rs.getString(1);
-//				String tensach = rs.getString(2);
-//				long gia =rs.getLong(3);
-//				long soluongmua = rs.getLong(4);
-//				long thanhtien = rs.getLong(5);
-//				boolean damua = rs.getBoolean(6);
-//				Date ngaymua = rs.getDate(7);
-//				
-//				LichSuMuaHang lst = new LichSuMuaHang(makh, tensach, gia, soluongmua, thanhtien, damua, ngaymua);
-//				lsmh.add(lst);
-//			}
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return lsmh;
-//	}
 
 	// Lấy MaKhachHang tu ten dang nhap + mk
 	public int getMaKh(String userName, String password) throws Exception {

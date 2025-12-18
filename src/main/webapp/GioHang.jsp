@@ -1,4 +1,4 @@
-<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import = "Models.GioHang" %>
 <%@ page import = "Models.Loai" %>
 <%@ page import = "Models.Sach" %>
@@ -14,293 +14,279 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  	
   	<style>
+		/* Navbar*/
   		.navbar-custom {
-  			background-color: #2d2f31;
-  			color: #fff;
+  			background: linear-gradient(to right, #2d2f31, #1a1c1d);
+  			box-shadow: 0 2px 4px rgba(0,0,0,.1);
   		}
-  		.navbar-custom a {
-            color: #adb5bd;
-            text-decoration: none;
-            padding: 6px 10px;
-            display: block;
-        }
-        .navbar-custom a:hover,
-        .navbar-custom a.active {
-            background-color: #505a64;
-            color: #fff;
-        }
-        .btn-custom {
-		    background-color: #2d2f31;
-		    color: #adb5bd;
-		    border: none;
-		    padding: 7px 15px;
-		    border-radius: 5px;
-		    transition: 0.2s;
-		    font-size: 14px;
-		}
-		.btn-custom:hover {
-		    background-color: #505a64;
-		    color: #fff;
-		}
+  		.navbar-brand {
+  			font-weight: 700;
+  			letter-spacing: 1px;
+  		}
+  		
+  		/* Sidebar loai */
+  		.category-card {
+  			background: white;
+  			border-radius: 8px;
+  			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  			overflow: hidden;
+  		}
+  		.category-header {
+  			background-color: #2d2f31;
+  			color: white;
+  			padding: 12px 15px;
+  			font-weight: 600;
+  		}
+  		.list-group-item-action {
+  			transition: all 0.2s;
+  			border-left: 3px solid transparent;
+  		}
+  		.list-group-item-action:hover {
+  			background-color: #f1f3f5;
+  			color: #0d6efd;
+  			border-left: 3px solid #0d6efd;
+  			padding-left: 20px;
+  		}
  	    .content-wrapper {
            margin-top: 20px;
        }
+       
+       /* Cart Custom CSS */
+       .cart-item {
+           background-color: #fff;
+           border-radius: 8px;
+           box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+           transition: transform 0.2s;
+       }
+       .cart-item:hover {
+           box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+       }
+       .cart-img-wrapper {
+           height: 120px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           overflow: hidden;
+           border-radius: 6px;
+           background-color: #f8f9fa;
+       }
+       .cart-img-wrapper img {
+           max-height: 100%;
+           max-width: 100%;
+           object-fit: contain;
+       }
+       .price-text {
+           font-weight: 600;
+           font-size: 1.1rem;
+       }
+       .header-row {
+           background-color: #f8f9fa;
+           border-radius: 8px;
+           padding: 10px 0;
+           font-weight: 600;
+           color: #6c757d;
+           font-size: 0.9rem;
+       }
   	</style>
 </head>
-<body>
-	<nav class="navbar navbar-expand-sm navbar-dark navbar-custom">
-	  <div class="container-fluid">
-	    <a class="navbar-brand" href="javascript:void(0)">Công ty sách</a>
+<body>	
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+	  <div class="container">
+	    <a class="navbar-brand" href="javascript:void(0)">
+	    	<i class="fa-solid fa-book"></i> BookStore
+	    </a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
 	    <div class="collapse navbar-collapse" id="mynavbar">
-	      <ul class="navbar-nav me-auto">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
 	          <a class="nav-link" href="tcController">
-	          	<i class="bi bi-house"></i> Trang chủ
+	          	<i class="fa-solid fa-house"></i> Trang chủ
 	          </a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link active" href="giohangController">
-	          	<i class="bi bi-cart"></i> Giỏ hàng
+	          	<i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
 	          </a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="thanhtoanController">
-	          	<i class="bi bi-credit-card"></i> Thanh toán
+	          <a class="nav-link" href="HtThanhToanController">
+	          	<i class="fa-solid fa-credit-card"></i> Thanh toán
 	          </a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="HtLichSuController">
-	          	<i class="bi bi-receipt"></i> Lịch sử mua hàng
+	          	<i class="fa-solid fa-clock-rotate-left"></i> Lịch sử
 	          </a>
 	        </li>
 
-			<%KhachHang user=(KhachHang)session.getAttribute("user");
-			if(user!=null){%>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Xin chào: <%=user.getHoTen() %></a>
-			</li>
-			<li class="nav-item">
-          		<a class="nav-link" href="dangxuatController">
-          			<i class="bi bi-box-arrow-right"></i> Đăng xuất
-          		</a>
-        	</li>
-			<%}else{ %>
-			<li class="nav-item">
-				<a class="nav-link" href="dangnhapController">
-					<i class="bi bi-box-arrow-in-right"></i> Đăng nhập
-				</a>
-			</li>
-			<li class="nav-item">
-   				<a class="nav-link" href="dangkyController">
-   					<i class="bi bi-person-plus"></i> Đăng ký
-   				</a>
- 			</li>
-			<%} %>
-
-			<%-- <c:choose>
+	        <c:choose>
         		<c:when test="${not empty sessionScope.user}">
-        			<li class="nav-item">
-	          			<a class="nav-link" href="#" style="color: red">
-	          				xin chao ${sessionScope.user}
-	          			</a>
-	        		</li>
-	        		<li class="nav-item">
-          				<a class="nav-link" href="dangxuatController">Đăng xuất</a>
-        			</li>
+	        		<li class="nav-item ">
+						<a class="nav-link text-danger fw-bold" href="#">Xin chào: ${sessionScope.user.hoTen}</a>
+					</li>
+					<li class="nav-item">
+		          		<a class="nav-link" href="dangxuatController">
+		          			<i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+		          		</a>
+		        	</li>
         		</c:when>
         		<c:otherwise>
         			<li class="nav-item">
-          				<a class="nav-link" href="dangnhapController">Đăng nhập</a>
-        			</li>
+          				<a class="nav-link" href="dangnhapController">
+          					<i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+          				</a>
+          			</li>
+        			<li class="nav-item">
+          				<a class="nav-link" href="dangkyController">
+          					<i class="fa-solid fa-user-plus"></i> Đăng ký
+          				</a>
+          			</li>
         		</c:otherwise>
-	        </c:choose> --%>
+	        </c:choose>
 	      </ul>
+	      
 	      <form class="d-flex" action="tcController">
-	        <input class="form-control me-2" type="text" placeholder="Search" name="input_search">
-	        <button class="btn btn-primary" type="submit">Search</button>
+	      	<div class="input-group">
+	        	<input class="form-control" type="text" placeholder="Tìm kiếm sách..." name="input_search">
+	        	<button class="btn btn-primary" type="submit">
+	        		<i class="fa-solid fa-magnifying-glass"></i>
+	        	</button>
+	        </div>
 	      </form>
 	    </div>
 	  </div>
 	</nav>
 	
-	<div class="row">
-		<div class="col-sm-3">
-<%-- 			<c:forEach var="l" items="${dsLoai}">
-				<a href="tcController?ml=${l.maLoai}" style="display:block; min-width: 200px" class="btn btn-dark my-3">
-					${l.maLoai}
-				</a>
-			</c:forEach> --%>
-			
-			<%
-				ArrayList<Loai> dsLoai = (ArrayList<Loai>) request.getAttribute("dsLoai");
-				for(Loai l : dsLoai) {
-			%>
-		            <a href="tcController?ml=<%= l.getMaLoai() %>" style="display:block; min-width: 200px" class="btn my-2 btn-custom">
-		                <%= l.getTenLoai() %>
-		            </a>
-			<%	}%>
-		</div>
-		<div class="col-sm-9 content-wrapper mt-2">
-			<h3 class="mb-3">
-				<i class="bi bi-cart-dash-fill"></i> Danh sách các hàng trong giỏ
-			</h3>
-			<%-- <%
-				GioHangBO gbo = (GioHangBO) request.getAttribute("gh");		
-				if(gbo != null) {
-				%>
-				<form>
-					<table class="table table-hover table-bordered">
-						<thead class="table-dark">
-							<tr>
-								<th>Ảnh</th>
-								<th>Tên Sách</th>
-								<th>Số lượng</th>
-								<th>Giá</th>
-								<th>Thành tiền</th>
-								<th></th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<%for(int i=0; i<gbo.ds.size(); i++){ %>
-							<tr>
-								<td>
-									<img src="<%=gbo.ds.get(i).getAnh()%>">
-								</td>
-								<td><%= gbo.ds.get(i).getTenSach() %></td>
-								<td>
-									<%= gbo.ds.get(i).getSoLuong() %>
-									<form method="get" action="giohangController">
-										<input type="hidden" name="action" value="update">
-										<input type="hidden" name="ms" value="<%= gbo.ds.get(i).getMaSach()%>">
-										<input type="number" name="txtSuaSL" class="form-control mt-2 mb-2" style="width: 200px">
-										<input type="submit" name="tt" value="sửa" class="btn btn-secondary btn-sm">
-									</form>	
-								</td>
-								<td><%= gbo.ds.get(i).getGia() %></td>
-								<td><%= gbo.ds.get(i).getThanhTien()%></td>
-								<td>
-									<a href="giohangController?action=delete&ms=<%=gbo.ds.get(i).getMaSach() %>" class="btn btn-danger">Xóa</a>
-								</td>
-							</tr>
-						</tbody>
-							<%} %>
-					</table>
-					
-					<div class ="d-flex justify-content-between">
-						<div>
-							<a href="tcController" class="btn btn-secondary">Tiếp tục mua hàng</a>
-							<a href="giohangController?action=deleteAll" class="btn btn-dark">Xóa tất cả</a>
-						</div>
-						<div class="fw-bold">Tổng tiền: <%= gbo.TongTien()%></div>
+	<div class="m-4">
+		<div class="row justify-content-center">
+			<!-- Sidebar -->
+			<div class="col-lg-3 col-md-4 mb-4">
+				<div class="category-card sticky-top" style="top: 80px; z-index: 1;">
+					<div class="category-header">
+						<i class="fa-solid fa-list-ul"></i> DANH MỤC SÁCH
 					</div>
-				</form>
-				<%} %> --%>
-				
-				<%
-				    // Lấy đối tượng giỏ hàng từ session hoặc request (tùy cách bạn lưu)
-				    GioHangBO gh = (GioHangBO) session.getAttribute("gh");
-				    if (gh != null && gh.ds != null && !gh.ds.isEmpty()) {
-				%>
-				        <form action="suaxoaController">
-				        <% for (int i = 0; i < gh.ds.size(); i++) {
-				               GioHang item = gh.ds.get(i);
-				        %>
-				            <div class="row">
-				                <div class="col-sm-1">
-				                    <input type="checkbox" value="<%= item.getMaSach() %>" name="select">
-				                </div>
-				                <div class="col-sm-3">
-				                    <img src="<%= item.getAnh() %>" alt="<%= item.getTenSach() %>">
-				                </div>
-				                <div class="col-sm-2"><%= item.getTenSach() %></div>
-				                <div class="col-sm-1"><%= item.getGia() %></div>
-				                <div class="col-sm-1"><%= item.getSoLuong() %></div>
-				                <div class="col-sm-2">
-				                    <input type="number" min="0" class="form-control mb-2" name="<%= item.getMaSach() %>" style="width:70px">
-				                    <button type="submit" name="btcsua" class="btn btn-warning" value="<%= item.getMaSach() %>">
-				                    	<i class="bi bi-pencil-square"></i> Sửa
-				                    </button>
-				                </div>
-				                <div class="col-sm-1"><%= item.getThanhTien() %></div>
-				                <div class="col-sm-1">
-				                    <a href="suaxoaController?action=delete&ms=<%= item.getMaSach() %>" class="btn btn-danger">
-				                    	Xóa
-				                    </a>
-				                </div>
-				            </div>
-				        <% } %>
-				
-				        <div class="d-flex justify-content-between my-3">
-				            <div>
-				                <button type="submit" value="deleteSelect" name="action" class="btn btn-secondary">Xóa chọn</button>
-				                <!-- <a href="lichsumuahangController" class="btn btn-dark">Mua hàng</a> -->
-				            </div>
-				            <div class="fw-bold text-danger">
-				                Tổng tiền: <%= gh.TongTien() %>
-				            </div>
-				        </div>
-				        </form>
-				        <form action="lichsuController">
-				        	<button type="submit" class = "btn btn-success">Xác nhận mua</button>
-				        </form>
-				<%
-				    } else {
-				%>
-				        <p>Giỏ hàng rỗng</p>
-				<%
-				    }
-				%>
-				
-				
-			<%-- <c:choose>
-				<c:when test="${not empty gh}">
-					<form action="suaxoaController">
-						<c:forEach var="item" items="${gh.ds}">
-							<div class="row">
-								<div class="col-sm-1">
-									 <input type="checkbox" value="${item.maSach}" name="cxoa">
-								</div>
-								<div class="col-sm-3">
-									<img src="${item.anh}" alt="${item.tenSach}">
-								</div>
-								<div class="col-sm-2">${item.tenSach}</div>
-								<div class="col-sm-1">${item.gia}</div>
-								<div class="col-sm-1">
-									${item.soLuong}
-								</div>
-								<div class="col-sm-2">
-									<input type="number" min=0 name="${item.maSach }" style="width:60px" >
-							        <button type="submit" name="btcsua" value="${item.maSach }">+</button>	
-								</div>
-								<div class="col-sm-1">${item.thanhTien}</div>
-								<div class="col-sm-1">
-									<a href="suaxoaController?action=delete&ms=${item.maSach}" class="btn btn-danger">Xóa</a>
-								</div>
-							</div>
-						</c:forEach>							
+					<div class="list-group list-group-flush">
+						<c:forEach items="${dsLoai}" var="l">
+							<a href="tcController?ml=${l.maLoai }" class="list-group-item list-group-item-action">
+				                ${l.tenLoai}
+				            </a>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Cart Content -->
+			<div class="col-lg-9 col-md-8 content-wrapper mt-0">
+				<div class="card border-0 shadow-sm">
+					<div class="card-body p-4">
+						<h3 class="mb-4 border-bottom pb-2">
+							<i class="fa-solid fa-cart-shopping"></i> Giỏ hàng của bạn
+						</h3>
 						
-						<div class ="d-flex justify-content-between">
-							<div>
-								<button type="submit" value="deleteSelect" name="action">Xóa chọn</button>
-								<a href="" class="btn btn-dark">Mua hàng</a>
-							</div>
-							<div class="fw-bold">
-								Tổng tiền: ${gh.tongTien}
-							</div>
-						</div>
-					</form>
-				</c:when>
-				<c:otherwise>
-					<p>Giỏ hàng rỗng</p>
-				</c:otherwise>
-			</c:choose> --%>
+						<c:choose>
+						    <c:when test="${not empty sessionScope.gh and not empty sessionScope.gh.ds}">			
+						        <form action="suaxoaController" method="post">		 
+						            <div class="row header-row mb-3 d-none d-md-flex text-center align-items-center">
+						            	<div class="col-1"><input type="checkbox" class="form-check-input" disabled></div>
+						            	<div class="col-2">Sản phẩm</div>
+						            	<div class="col-3">Tên sách</div>
+						            	<div class="col-2">Giá</div>
+						            	<div class="col-2">Số lượng / Cập nhật</div>
+						            	<div class="col-2">Thành tiền / Xóa</div>
+						            </div>
+						
+						            <!-- Cart Items -->
+						            <c:forEach var="item" items="${sessionScope.gh.ds}">
+						                <div class="row align-items-center mb-3 p-3 cart-item border border-light">
+						
+						                    <!-- Checkbox -->
+						                    <div class="col-md-1 col-2 text-center">
+						                        <input class="form-check-input p-2" type="checkbox" value="${item.maSach}" name="select" style="cursor: pointer;">
+						                    </div>
+						
+						                    <!-- Image -->
+						                    <div class="col-md-2 col-4">
+						                    	<div class="cart-img-wrapper">
+						                        	<img src="${item.anh}" alt="${item.tenSach}" class="img-fluid">
+						                        </div>
+						                    </div>
+						
+						                    <div class="col-md-3 col-6">
+						                    	<h6 class="mb-1 text-dark fw-bold">${item.tenSach}</h6>
+						                    </div>
+						
+						                    <div class="col-md-2 text-center">
+						                    	<span class="price-text d-none d-md-block">${item.gia}</span>
+						                    	<small class="text-muted d-md-none">Đơn giá: ${item.gia}</small>
+						                    </div>
+						
+						                    <!-- số lương & Update btn -->
+						                    <div class="col-md-2 col-12 mt-2 mt-md-0 d-flex justify-content-between align-items-center flex-md-column">
+						                    	<label class="d-md-none fw-bold">Số lượng:</label>
+						                    	<div class="fw-bold mb-md-2">${item.soLuong}</div>
+						                    	<div class="input-group input-group-sm">		
+						                        	<input type="number" min="0" class="form-control text-center" name="${item.maSach}" value="0" placeholder="SL mới">
+						                        	<button type="submit" name="btcsua" value="${item.maSach}" class="btn btn-warning">
+						                            	<i class="fa-solid fa-rotate"></i>
+						                        	</button>
+						                        </div>
+						                    </div>
+						
+						                    <!-- Thành tiền & Delete btn -->
+						                    <div class="col-md-2 col-12 mt-2 mt-md-0 text-md-end text-center d-flex justify-content-between align-items-center flex-md-column">
+						                    	<div class="d-md-none fw-bold">Tổng:</div>
+						                    	<div class="fw-bold mb-md-2">${item.thanhTien}</div>
+						                        <a href="suaxoaController?action=delete&ms=${item.maSach}" class="btn btn-sm btn-danger w-100">
+						                            <i class="fa-solid fa-trash-can"></i> Xóa
+						                        </a>
+						                    </div>	
+						                </div>
+						            </c:forEach>
+						
+						            <!-- Footer -->
+						            <div class="card bg-light mt-4">
+						            	<div class="card-body">
+							            	<div class="row align-items-center">
+							            		<div class="col-md-6 mb-3 mb-md-0">
+							            			<button type="submit" name="action" value="deleteSelect" class="btn btn-secondary">
+								                        <i class="fa-regular fa-square-check"></i> Xóa mục đã chọn
+								                    </button>
+							            		</div>
+							            		<div class="col-md-6 text-md-end">
+							            			<h4 class="mb-0">
+							            				Tổng tiền: <span class="text-danger fw-bold">${sessionScope.gh.tongTien} đ</span>
+							            			</h4>
+							            		</div>
+							            	</div>
+						            	</div>
+						            </div>
+						        </form>
+								
+								<!-- Checkout Button -->
+						        <div class="text-end mt-4">
+							        <form action="thanhtoanController" method="post">
+							            <button type="submit" class="btn btn-success px-5 shadow">
+							                Xác nhận mua hàng
+							            </button>
+							        </form>		
+						        </div>
+						    </c:when>
+						    <c:otherwise>
+						        <div class="text-center py-5">
+						        	<i class="fa-solid fa-cart-arrow-down fa-4x text-muted mb-3"></i>
+						        	<h4 class="text-muted">Giỏ hàng của bạn đang trống</h4>
+						        </div>
+						    </c:otherwise>			
+						</c:choose>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

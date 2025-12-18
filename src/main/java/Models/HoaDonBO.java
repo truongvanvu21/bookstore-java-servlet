@@ -11,4 +11,12 @@ public class HoaDonBO {
 	public ArrayList<ThongKeDonHang>  getHoaDonHomNay() throws Exception {
 		return hdDAO.getHoaDonHomNay();
 	}
+	
+	public ArrayList<HoaDonDTO> getHoaDonDaMuaChuaTT(long maKh) throws Exception {
+		return hdDAO.getHoaDonDaMuaChuaTT(maKh);
+	}
+	
+	public ArrayList<HoaDonChiTietSachDTO> getDSSachTrongHoaDon(long maKhachHang, long maHoaDon) throws Exception {
+		return hdDAO.getDSSachTrongHoaDon(maKhachHang, maHoaDon);
+	}
 }

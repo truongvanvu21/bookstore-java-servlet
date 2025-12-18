@@ -1,5 +1,6 @@
 package Models;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -46,4 +47,68 @@ public class HoaDonDAO {
 		}
 		return lst;
 	}
+	
+	public ArrayList<HoaDonDTO> getHoaDonDaMuaChuaTT(long maKh) throws Exception {
+		ArrayList<HoaDonDTO> ds = new ArrayList<>();
+		KetNoi kn = new KetNoi();
+		kn.ketnoi();
+		
+		String sql = "SELECT hd.MaHoaDon, hd.NgayMua, hd.damua, SUM(ct.SoLuongMua * s.gia) AS TongTien\r\n"
+				+ "FROM     hoadon AS hd INNER JOIN\r\n"
+				+ "                  ChiTietHoaDon AS ct ON hd.MaHoaDon = ct.MaHoaDon INNER JOIN\r\n"
+				+ "                  sach AS s ON ct.MaSach = s.masach\r\n"
+				+ "GROUP BY hd.MaHoaDon, hd.NgayMua, hd.damua, hd.makh\r\n"
+				+ "HAVING (hd.makh = ?)\r\n"
+				+ "ORDER BY hd.NgayMua DESC";
+		PreparedStatement ps = kn.cn.prepareStatement(sql);
+		ps.setLong(1, maKh);
+		
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {
+			long maHoaDon = rs.getLong("MaHoaDon");
+			Boolean damua = rs.getBoolean("damua");
+			Date ngaymua = rs.getDate("NgayMua");
+			long tongtien = rs.getLong("TongTien");
+			
+			HoaDonDTO hd = new HoaDonDTO(maHoaDon, damua, ngaymua, tongtien);
+			ds.add(hd);
+		}
+		
+		return ds;
+	}
+	
+	public ArrayList<HoaDonChiTietSachDTO> getDSSachTrongHoaDon(long maKhachHang, long maHoaDon) throws Exception {
+	    ArrayList<HoaDonChiTietSachDTO> ds = new ArrayList<>();
+	    KetNoi kn = new KetNoi();
+	    kn.ketnoi();
+	    
+	    String sql = "SELECT hd.MaHoaDon, s.masach, s.tensach, s.anh, s.gia, cthd.SoLuongMua, s.gia * cthd.SoLuongMua AS ThanhTien, hd.NgayMua\r\n"
+	    		+ "FROM     hoadon AS hd INNER JOIN\r\n"
+	    		+ "                  ChiTietHoaDon AS cthd ON hd.MaHoaDon = cthd.MaHoaDon INNER JOIN\r\n"
+	    		+ "                  sach AS s ON cthd.MaSach = s.masach\r\n"
+	    		+ "WHERE  (hd.makh = ?) AND (hd.MaHoaDon = ?)";
+
+        PreparedStatement ps = kn.cn.prepareStatement(sql);
+        ps.setLong(1, maKhachHang);
+        ps.setLong(2, maHoaDon);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            HoaDonChiTietSachDTO dto = new HoaDonChiTietSachDTO(
+                rs.getLong("MaHoaDon"),
+                rs.getString("masach"),
+                rs.getString("tensach"),
+                rs.getString("anh"),
+                rs.getLong("gia"),
+                rs.getLong("SoLuongMua"),
+                rs.getLong("ThanhTien"),
+                rs.getDate("NgayMua")
+            );
+            
+            ds.add(dto);
+	    }
+        
+	    return ds;
+	}
+
 }

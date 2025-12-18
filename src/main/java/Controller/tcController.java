@@ -40,9 +40,9 @@ public class tcController extends HttpServlet {
 			request.setAttribute("dsLoai", lbo.getLoai());
 			
 			String ml = request.getParameter("ml");
-			if(ml == null || ml.trim().isEmpty() ) ml = null;
+			if(ml == null || ml.trim().isEmpty() || "null".equals(ml)) ml = null;
 			String key = request.getParameter("input_search");
-			if(key == null || key.trim().isEmpty()) key = null;
+			if(key == null || key.trim().isEmpty() || "null".equals(key)) key = null;
 			
 			int page = 1;
 			int pageSize = 8;
@@ -59,7 +59,7 @@ public class tcController extends HttpServlet {
 			ArrayList<Sach> ds = sbo.getDanhSachPhanTrang(page, pageSize, ml, key);
 			
 			if(ds.isEmpty()) {
-				request.setAttribute("empty", "Dữ liệu không hợp lệ");
+				request.setAttribute("emptys", "Dữ liệu không hợp lệ");
 			}
 			
 			request.setAttribute("mlLink", ml);
