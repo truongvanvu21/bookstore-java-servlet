@@ -59,6 +59,27 @@ public class HtThanhToanController extends HttpServlet {
 					request.setAttribute("selectedMaHoaDon", maHoaDon);
 				}
 				
+				// thanh toán hóa đơn
+				String action = request.getParameter("action");
+	            if ("thanhToanHD".equals(action) && maHoaDonStr != null) {
+	                long maHoaDon = Long.parseLong(maHoaDonStr);
+	                hdbo.thanhToanHD(maHoaDon);
+	                response.sendRedirect("HtThanhToanController");
+	                return;
+	            }
+	            
+	            // xóa hóa đơn
+	            if ("deleteHD".equals(action) && maHoaDonStr != null) {
+	                long maHoaDon = Long.parseLong(maHoaDonStr);
+	                hdbo.deleteHoaDon(maHoaDon);
+	                
+	                session.setAttribute("message", "Đã xóa hóa đơn #" + maHoaDon + " thành công!");
+	                session.setAttribute("messageType", "success");
+	                
+	                response.sendRedirect("HtThanhToanController");
+	                return;
+	            }
+				
 				request.getRequestDispatcher("ThanhToan.jsp").forward(request, response);
 			}
 			else {

@@ -19,4 +19,12 @@ public class HoaDonBO {
 	public ArrayList<HoaDonChiTietSachDTO> getDSSachTrongHoaDon(long maKhachHang, long maHoaDon) throws Exception {
 		return hdDAO.getDSSachTrongHoaDon(maKhachHang, maHoaDon);
 	}
+	
+	public int thanhToanHD(long maHD) throws Exception {
+		return hdDAO.thanhToanHD(maHD);
+	}
+	
+	public int deleteHoaDon(long maHD) throws Exception {
+		return hdDAO.deleteHoaDon(maHD);
+	}
 }

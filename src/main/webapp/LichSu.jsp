@@ -53,6 +53,28 @@
  	    .content-wrapper {
            margin-top: 20px;
        }
+       
+       /* Status */
+       .status-badge {
+		   padding: 6px 12px;
+		   border-radius: 30px;
+		   font-size: 0.75rem;
+		   font-weight: 600;
+		   display: inline-flex;
+		   align-items: center;
+		   gap: 5px;
+	   }
+	   
+	   .status-paid {
+		   background-color: #d1e7dd;
+		   color: #0f5132;
+	   }
+	   
+	   .status-unpaid {
+		   background-color: #fff3cd;
+		   color: #856404;
+	   }
+       
   	</style>
 </head>
 <body>	
@@ -141,45 +163,57 @@
 					</div>
 				</div>
 			<div class="col-sm-9 content-wrapper">
-				<div class=" table-responsive">
-	                <h3 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Lịch sử mua hàng</h3>
-	                <table class="table table-bordered history-table">
-	                    <thead class ="table-dark">
-	                        <tr>
-	                            <th>Mã KH</th>
-	                            <th>Tên sách</th>
-	                            <th>Giá</th>
-	                            <th>Số lượng</th>
-	                            <th>Thành tiền</th>
-	                            <th>Trạng thái</th>
-	                            <th>Ngày mua</th>
-	                        </tr>
-	                    </thead>
-	
-	                    <tbody>
-	                        <c:forEach var="ls" items="${dsLS}">
-							    <tr>
-							        <td>${ls.makh}</td>
-							        <td>${ls.tenSach}</td>
-							        <td>${ls.gia}</td>
-							        <td>${ls.soLuongMua}</td>
-							        <td>${ls.thanhTien}</td>
-							        <td>
-							            <c:choose>
-							                <c:when test="${ls.daMua}">
-							                    <span>Đã thanh toán</span>
-							                </c:when>
-							                <c:otherwise>
-							                    <span>Chưa thanh toán</span>
-							                </c:otherwise>
-							            </c:choose>
-							        </td>
-							        <td>${ls.ngayMua}</td>
-							    </tr>
-							</c:forEach>                     
-	                    </tbody>
-	                </table>
-	            </div>
+				<c:choose>
+					<c:when test="${not empty dsLS }">
+						<div class=" table-responsive">
+			                <h3 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Lịch sử mua hàng</h3>
+			                <table class="table table-bordered history-table table-hover">
+			                    <thead class ="table-dark">
+			                        <tr>
+			                            <th>Mã KH</th>
+			                            <th>Tên sách</th>
+			                            <th>Giá</th>
+			                            <th>Số lượng</th>
+			                            <th>Thành tiền</th>
+			                            <th>Trạng thái</th>
+			                            <th>Ngày mua</th>
+			                        </tr>
+			                    </thead>
+			
+			                    <tbody>
+			                        <c:forEach var="ls" items="${dsLS}">
+									    <tr>
+									        <td>${ls.makh}</td>
+									        <td>${ls.tenSach}</td>
+									        <td>${ls.gia}</td>
+									        <td>${ls.soLuongMua}</td>
+									        <td>${ls.thanhTien}</td>
+									        <td>
+									            <c:choose>
+									                <c:when test="${ls.daMua}">
+									                    <span class="status-badge status-paid">
+									                    	<i class="fa-regular fa-circle-check"></i>Đã thanh toán
+									                    </span>
+									                </c:when>
+									                <c:otherwise>
+									                    <span class="status-badge status-unpaid">Chưa thanh toán</span>
+									                </c:otherwise>
+									            </c:choose>
+									        </td>
+									        <td>${ls.ngayMua}</td>
+									    </tr>
+									</c:forEach>                     
+			                    </tbody>
+			                </table>
+			            </div>
+					</c:when>
+					<c:otherwise>
+						<div class="text-center py-5">
+				        	<i class="fa-brands fa-cash-app fa-4x text-muted mb-3"></i>
+				        	<h4 class="text-muted">Chưa có đơn hàng thanh toán</h4>
+				        </div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>

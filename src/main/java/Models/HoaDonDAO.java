@@ -58,7 +58,7 @@ public class HoaDonDAO {
 				+ "                  ChiTietHoaDon AS ct ON hd.MaHoaDon = ct.MaHoaDon INNER JOIN\r\n"
 				+ "                  sach AS s ON ct.MaSach = s.masach\r\n"
 				+ "GROUP BY hd.MaHoaDon, hd.NgayMua, hd.damua, hd.makh\r\n"
-				+ "HAVING (hd.makh = ?)\r\n"
+				+ "HAVING (hd.makh = ?) AND (hd.damua = 0)\r\n"
 				+ "ORDER BY hd.NgayMua DESC";
 		PreparedStatement ps = kn.cn.prepareStatement(sql);
 		ps.setLong(1, maKh);
@@ -110,5 +110,43 @@ public class HoaDonDAO {
         
 	    return ds;
 	}
-
+	
+	// thanh toán hóa đơn
+	public int thanhToanHD(long maHD) throws Exception {
+		KetNoi kn  = new KetNoi();
+		kn.ketnoi();
+		
+		String sql = "UPDATE hoadon SET damua = 1 WHERE MaHoaDon = ?";
+		PreparedStatement ps = kn.cn.prepareStatement(sql);
+		ps.setLong(1, maHD);	
+		int kq = ps.executeUpdate();
+		
+		String sql2 = "UPDATE ChiTietHoaDon SET damua = 1 WHERE MaHoaDon = ?";
+		PreparedStatement ps2 = kn.cn.prepareStatement(sql2);
+		ps2.setLong(1, maHD);
+		kq += ps2.executeUpdate();
+		
+		kn.cn.close();
+		return kq;
+	}
+	
+	public int deleteHoaDon(long maHD) throws Exception {
+		KetNoi kn = new KetNoi();
+		kn.ketnoi();
+		
+		// xóa bảng CT hóa đơn
+		String sql1 = "DELETE FROM ChiTietHoaDon WHERE MaHoaDon = ?";
+		PreparedStatement ps1 = kn.cn.prepareStatement(sql1);
+		ps1.setLong(1, maHD);
+		int kq = ps1.executeUpdate();
+		
+		//xóa bảng hóa đơn
+		String sql2 = "DELETE FROM hoadon WHERE MaHoaDon = ?";
+		PreparedStatement ps2 = kn.cn.prepareStatement(sql2);
+		ps2.setLong(1, maHD);
+		kq += ps2.executeUpdate();
+		
+		kn.cn.close();
+		return kq;
+	}
 }
