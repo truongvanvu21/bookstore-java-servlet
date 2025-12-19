@@ -86,12 +86,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="AdminController?action=xacnhan">
+                        <a class="nav-link" href="xacnhanthanhtoanAdminController">
                             <i class="fas fa-check-circle me-2"></i> Xác nhận đơn hàng
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="AdminController?action=hoadondathanhtoan">
+                        <a class="nav-link" href="lichsuhoadonAdminController">
                             <i class="fas fa-file-invoice-dollar me-2"></i> Hóa đơn đã thanh toán
                         </a>
                     </li>
@@ -100,12 +100,6 @@
         </nav>
 
         <div class="col-md-9 ms-sm-auto col-lg-10 px-4">
-			<p style="color:green;">
-		  		<%= (request.getAttribute("success") != null ? request.getAttribute("success") : "") %>
-		  	</p>
-			<p style="color:red;">
-		  		<%= (request.getAttribute("error") != null ? request.getAttribute("error") : "") %>
-		  	</p>
             <!-- form thêm loại -->
             <div class="card card-custom mb-3 p-3">
                 <h5 class="mb-2 text-center">Thêm loại mới</h5>
@@ -247,6 +241,57 @@
             </div>
         </div>
     </div>
+    
+    <!--TOAST MESSAGE -->
+	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100; margin-top: 50px;">
+	    <%-- Kiểm tra thông báo thành công --%>
+	    <c:if test="${not empty sessionScope.success}">
+	        <div id="toastSuccess" class="toast hide border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+	            <div class="toast-header bg-success text-white">
+	                <i class="fas fa-check-circle me-2"></i>
+	                <strong class="me-auto">Thành công</strong>
+	                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+	            </div>
+	            <div class="toast-body">
+	                ${sessionScope.success}
+	            </div>
+	        </div>
+	        <c:remove var="success" scope="session" />
+	    </c:if>
+	
+	    <%-- Kiểm tra thông báo lỗi --%>
+	    <c:if test="${not empty sessionScope.error}">
+	        <div id="toastError" class="toast hide border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+	            <div class="toast-header bg-danger text-white">
+	                <i class="fas fa-exclamation-triangle me-2"></i>
+	                <strong class="me-auto">Lỗi</strong>
+	                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+	            </div>
+	            <div class="toast-body">
+	                ${sessionScope.error}
+	            </div>
+	        </div>
+	        <c:remove var="error" scope="session" />
+	    </c:if>
+	</div>
 </div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	    var toastOptions = {delay: 3000, autohide: true};
+	
+	    var successEl = document.getElementById('toastSuccess');
+	    if (successEl) {
+	        var toastS = new bootstrap.Toast(successEl, toastOptions);
+	        toastS.show();
+	    }
+	
+	    var errorEl = document.getElementById('toastError');
+	    if (errorEl) {
+	        var toastE = new bootstrap.Toast(errorEl, toastOptions);
+	        toastE.show();
+	    }
+	});
+</script>
 </body>
 </html>

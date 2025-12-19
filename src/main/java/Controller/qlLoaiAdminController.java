@@ -47,18 +47,20 @@ public class qlLoaiAdminController extends HttpServlet {
 			
 			if("add".equals(action)) {
 				String maLoai = request.getParameter("maloai_add");
-				String tenloai = request.getParameter("tenloai_add");
-				
+				String tenloai = request.getParameter("tenloai_add");			
 				lbo.addLoai(maLoai, tenloai);
+				
+				session.setAttribute("success", "Thêm loại sách '" + tenloai + "' thành công!");		
 				response.sendRedirect("qlLoaiAdminController");
 				return;
 			}
 			
 			if("update".equals(action)) {
 				String maLoai = request.getParameter("maloai_update");
-				String tenloai = request.getParameter("tenloai_update");
-				
+				String tenloai = request.getParameter("tenloai_update");			
 				lbo.updateLoai(maLoai, tenloai);
+				
+				session.setAttribute("success", "Cập nhật loại sách thành công!");
 				response.sendRedirect("qlLoaiAdminController");
 				return;
 			}
@@ -66,11 +68,11 @@ public class qlLoaiAdminController extends HttpServlet {
 			if("delete".equals(action)) {
 				String maLoai = request.getParameter("maloaiDelete");
 				if(lbo.CheckSachTrongLoai(maLoai)) {
-					request.setAttribute("error", "Loại này vẫn còn sách, không thể xóa!");
+					session.setAttribute("error", "Loại mã '" + maLoai + "' vẫn còn sách, không thể xóa!");
 				}
 				else {
 					lbo.deleteLoai(maLoai);
-//					request.setAttribute("success", "Xóa loại thành công!");
+					session.setAttribute("success", "Đã xóa loại sách thành công!");
 					response.sendRedirect("qlLoaiAdminController");
 					return;
 				}

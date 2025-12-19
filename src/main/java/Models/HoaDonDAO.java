@@ -45,6 +45,7 @@ public class HoaDonDAO {
 		    
 		    lst.add(new ThongKeDonHang(maKh, hoTen, tongSoLuong, tongGia, thanhTien, maHoaDon));
 		}
+		kn.cn.close();
 		return lst;
 	}
 	
@@ -70,13 +71,14 @@ public class HoaDonDAO {
 			Date ngaymua = rs.getDate("NgayMua");
 			long tongtien = rs.getLong("TongTien");
 			
-			HoaDonDTO hd = new HoaDonDTO(maHoaDon, damua, ngaymua, tongtien);
+			HoaDonDTO hd = new HoaDonDTO(maKh, maHoaDon, null, damua, ngaymua, tongtien);
 			ds.add(hd);
 		}
-		
+		kn.cn.close();
 		return ds;
 	}
 	
+	// Lấy ra các sách trong hóa đơn của 1 khách hàng
 	public ArrayList<HoaDonChiTietSachDTO> getDSSachTrongHoaDon(long maKhachHang, long maHoaDon) throws Exception {
 	    ArrayList<HoaDonChiTietSachDTO> ds = new ArrayList<>();
 	    KetNoi kn = new KetNoi();
@@ -108,6 +110,7 @@ public class HoaDonDAO {
             ds.add(dto);
 	    }
         
+        kn.cn.close();
 	    return ds;
 	}
 	
@@ -116,7 +119,7 @@ public class HoaDonDAO {
 		KetNoi kn  = new KetNoi();
 		kn.ketnoi();
 		
-		String sql = "UPDATE hoadon SET damua = 1 WHERE MaHoaDon = ?";
+		String sql = "UPDATE hoadon SET damua = 1, NgayMua = GETDATE() WHERE MaHoaDon = ?";
 		PreparedStatement ps = kn.cn.prepareStatement(sql);
 		ps.setLong(1, maHD);	
 		int kq = ps.executeUpdate();
@@ -148,5 +151,37 @@ public class HoaDonDAO {
 		
 		kn.cn.close();
 		return kq;
+	}
+	
+	// Lấy danh sách hóa đơn chưa thanh toán của all khách hàng
+	public ArrayList<HoaDonDTO> getDSHDChuaTTAllKH() throws Exception {
+		ArrayList<HoaDonDTO> ds = new ArrayList<>();
+		KetNoi kn = new KetNoi();
+		kn.ketnoi();
+		
+		String sql = "SELECT KhachHang.makh, KhachHang.hoten, hd.NgayMua, SUM(ct.SoLuongMua * s.gia) AS TongTien, hd.MaHoaDon\r\n"
+				+ "FROM     hoadon AS hd INNER JOIN\r\n"
+				+ "                  ChiTietHoaDon AS ct ON hd.MaHoaDon = ct.MaHoaDon INNER JOIN\r\n"
+				+ "                  sach AS s ON ct.MaSach = s.masach INNER JOIN\r\n"
+				+ "                  KhachHang ON hd.makh = KhachHang.makh\r\n"
+				+ "GROUP BY hd.MaHoaDon, hd.NgayMua, hd.damua, hd.makh, KhachHang.makh, KhachHang.hoten\r\n"
+				+ "HAVING (hd.damua = 0)\r\n"
+				+ "ORDER BY hd.NgayMua DESC";
+		PreparedStatement ps = kn.cn.prepareStatement(sql);
+		
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {
+			long maKh = rs.getLong("makh");
+			String hoTen = rs.getString("hoten");
+			Date ngaymua = rs.getDate("NgayMua");
+			long maHoaDon = rs.getLong("MaHoaDon");
+			long tongtien = rs.getLong("TongTien");
+			
+			HoaDonDTO hd = new HoaDonDTO(maKh, maHoaDon, hoTen, false, ngaymua, tongtien);
+			ds.add(hd);
+		}
+		kn.cn.close();
+		
+		return ds;
 	}
 }

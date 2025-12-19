@@ -64,6 +64,10 @@ public class HtThanhToanController extends HttpServlet {
 	            if ("thanhToanHD".equals(action) && maHoaDonStr != null) {
 	                long maHoaDon = Long.parseLong(maHoaDonStr);
 	                hdbo.thanhToanHD(maHoaDon);
+	                
+	                session.setAttribute("message", "Thanh toán hóa đơn #" + maHoaDon + " thành công!");
+	                session.setAttribute("messageType", "success");
+	                
 	                response.sendRedirect("HtThanhToanController");
 	                return;
 	            }

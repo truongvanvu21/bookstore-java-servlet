@@ -69,12 +69,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="AdminController?action=xacnhan">
+                        <a class="nav-link" href="xacnhanthanhtoanAdminController">
                             <i class="fas fa-check-circle me-2"></i> Xác nhận đơn hàng
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="AdminController?action=hoadondathanhtoan">
+                        <a class="nav-link" href="lichsuhoadonAdminController">
                             <i class="fas fa-file-invoice-dollar me-2"></i> Hóa đơn đã thanh toán
                         </a>
                     </li>

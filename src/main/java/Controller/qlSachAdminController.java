@@ -105,6 +105,7 @@ public class qlSachAdminController extends HttpServlet {
                 Sach s = new Sach(masach,tensach,soluong,gia,maloai,sotap,anh,ngaynhap,tacgia);
                 sbo.addSach(s);
 
+                session.setAttribute("success", "Đã thêm sách mới thành công!");
                 response.sendRedirect("qlSachAdminController");
                 return;
             }
@@ -138,6 +139,7 @@ public class qlSachAdminController extends HttpServlet {
 				Sach sach = new Sach(masach,tensach,soluong,gia,maloai,sotap,anh,ngaynhap,tacgia);
 				sbo.updateSach(sach);
 				
+				session.setAttribute("success", "Cập nhật thông tin sách thành công!");
 				response.sendRedirect("qlSachAdminController");             
 				return;
 			}
@@ -153,6 +155,8 @@ public class qlSachAdminController extends HttpServlet {
 				}
 				
 				sbo.deleteSach(masach);
+				
+				session.setAttribute("success", "Đã xóa sách thành công!");
 				response.sendRedirect("qlSachAdminController");
 				return;
 			}

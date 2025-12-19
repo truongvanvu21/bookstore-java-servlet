@@ -205,69 +205,69 @@
 						<h3 class="mb-4 pb-2 border-bottom">
 							<i class="fa-solid fa-file-invoice-dollar me-2"></i> Danh sách hóa đơn
 						</h3>
-						 
-			            <div class="row header-row mb-3 mx-1 text-center d-none d-md-flex">
-			            	<div class="col-md-1">Mã HĐ</div>
-			            	<div class="col-md-3">Ngày mua</div>
-			            	<div class="col-md-3">Trạng thái</div>
-			            	<div class="col-md-2">Tổng tiền</div>
-			            	<div class="col-md-3">Thao tác</div>
-			            </div>
-			
-			            <c:forEach var="item" items="${dsHDTT}">
-			                <div class="row align-items-center p-3 invoice-item mx-1">
-			                    <div class="col-md-1 col-12 mb-2 mb-md-0 text-md-center">
-			                    	<div class="d-md-none text-muted small mb-1">Mã hóa đơn:</div>
-			                    	<span class="invoice-id">#${item.maHoaDon}</span>
-			                    </div>
-			                    <div class="col-md-3 col-12 mb-2 mb-md-0 text-md-center">
-			                    	<div class="d-md-none text-muted small mb-1">Ngày mua:</div>
-			                    	<span class="text-dark fw-bold"><i class="fa-regular fa-calendar-days me-1 text-secondary"></i>${item.ngayMua}</span>
-			                    </div>
-			                    <div class="col-md-3 col-6 mb-2 mb-md-0 text-md-center">
-			                    	<c:choose>
-						                <c:when test="${item.daMua}">
-						                    <span class="status-badge status-paid"><i class="fa-solid fa-check me-1"></i>Đã xong</span>
-						                </c:when>
-						                <c:otherwise>
-						                    <span class="status-badge status-unpaid"><i class="fa-regular fa-clock me-1"></i>Chưa thanh toán</span>
-						                </c:otherwise>
-						            </c:choose>
-			                    </div>
-			                    <div class="col-md-2 col-6 mb-2 mb-md-0 text-end text-md-center">
-			                    	<span class="price-text">${item.tongTien} đ</span>
-			                    </div>
-			
-			                    <!-- Thao Tác -->
-			                    <div class="col-md-3 col-12 mt-2 mt-md-0">
-			                    	<div class="btn-action-group">
-			                    		<!-- UPDATE: Nút xem chi tiết gọi Servlet -->
-				                    	<a href="HtThanhToanController?maHoaDon=${item.maHoaDon}" class="btn btn-secondary btn-sm-custom">
-										    <i class="fa-solid fa-eye"></i>
-										</a>
-										
-										<button type="button" class="btn btn-danger btn-sm-custom" data-bs-toggle="modal" data-bs-target="#formXoaHD${item.maHoaDon}">
-										    <i class="fa-solid fa-trash-can"></i>
-										</button>
-			                        	
-			                        	<!-- <button type="submit" name="btnThanhToan" value="" class="btn btn-primary btn-sm-custom">
-			                            	<i class="fa-regular fa-credit-card"></i> Thanh Toán
-			                        	</button> -->
-			                        	
-			                        	<a href="HtThanhToanController?action=thanhToanHD&maHoaDon=${item.maHoaDon}" 
-							               class="btn btn-primary btn-sm-custom">
-							                <i class="fa-regular fa-credit-card"></i> Thanh Toán
-							            </a>
-			                        	
-		                        	</div>
-			                    </div>	
-			                </div>
-			            </c:forEach>
-				            
+						<c:if test="${not empty dsHDTT}">
+				            <div class="row header-row mb-3 mx-1 text-center d-none d-md-flex">
+				            	<div class="col-md-1">Mã HĐ</div>
+				            	<div class="col-md-3">Ngày mua</div>
+				            	<div class="col-md-3">Trạng thái</div>
+				            	<div class="col-md-2">Tổng tiền</div>
+				            	<div class="col-md-3">Thao tác</div>
+				            </div>
+				
+				            <c:forEach var="item" items="${dsHDTT}">
+				                <div class="row align-items-center p-3 invoice-item mx-1">
+				                    <div class="col-md-1 col-12 mb-2 mb-md-0 text-md-center">
+				                    	<div class="d-md-none text-muted small mb-1">Mã hóa đơn:</div>
+				                    	<span class="invoice-id">#${item.maHoaDon}</span>
+				                    </div>
+				                    <div class="col-md-3 col-12 mb-2 mb-md-0 text-md-center">
+				                    	<div class="d-md-none text-muted small mb-1">Ngày mua:</div>
+				                    	<span class="text-dark fw-bold"><i class="fa-regular fa-calendar-days me-1 text-secondary"></i>${item.ngayMua}</span>
+				                    </div>
+				                    <div class="col-md-3 col-6 mb-2 mb-md-0 text-md-center">
+				                    	<c:choose>
+							                <c:when test="${item.daMua}">
+							                    <span class="status-badge status-paid"><i class="fa-solid fa-check me-1"></i>Đã xong</span>
+							                </c:when>
+							                <c:otherwise>
+							                    <span class="status-badge status-unpaid"><i class="fa-regular fa-clock me-1"></i>Chưa thanh toán</span>
+							                </c:otherwise>
+							            </c:choose>
+				                    </div>
+				                    <div class="col-md-2 col-6 mb-2 mb-md-0 text-end text-md-center">
+				                    	<span class="price-text">${item.tongTien} đ</span>
+				                    </div>
+				
+				                    <!-- Thao Tác -->
+				                    <div class="col-md-3 col-12 mt-2 mt-md-0">
+				                    	<div class="btn-action-group">
+				                    		<!-- UPDATE: Nút xem chi tiết gọi Servlet -->
+					                    	<a href="HtThanhToanController?maHoaDon=${item.maHoaDon}" class="btn btn-secondary btn-sm-custom">
+											    <i class="fa-solid fa-eye"></i>
+											</a>
+											
+											<button type="button" class="btn btn-danger btn-sm-custom" data-bs-toggle="modal" data-bs-target="#formXoaHD${item.maHoaDon}">
+											    <i class="fa-solid fa-trash-can"></i>
+											</button>
+				                        	
+				                        	<!-- <button type="submit" name="btnThanhToan" value="" class="btn btn-primary btn-sm-custom">
+				                            	<i class="fa-regular fa-credit-card"></i> Thanh Toán
+				                        	</button> -->
+				                        	
+				                        	<a href="HtThanhToanController?action=thanhToanHD&maHoaDon=${item.maHoaDon}" 
+								               class="btn btn-primary btn-sm-custom">
+								                <i class="fa-regular fa-credit-card"></i> Thanh Toán
+								            </a>
+				                        	
+			                        	</div>
+				                    </div>	
+				                </div>
+				            </c:forEach>
+				         </c:if> 
 			            <c:if test="${empty dsHDTT}">
 			            	<div class="text-center py-5 text-muted">
 			            		<i class="fa-solid fa-receipt fa-3x mb-3"></i>
-			            		<p>Chưa có hóa đơn nào.</p>
+			            		<p class="fs-3 text-muted fw-bold">Chưa có hóa đơn nào.</p>
 			            	</div>
 			            </c:if>
 					</div>
@@ -285,7 +285,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title">
-		          <i class="fa-solid fa-circle-info text-primary me-2"></i>Chi tiết hóa đơn #${item.maHoaDon}
+		          <i class="fa-solid fa-circle-info me-2"></i>Chi tiết hóa đơn #${item.maHoaDon}
 		        </h5>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 		      </div>
@@ -321,9 +321,9 @@
 											        <td class="fw-bold text-dark">${s.tenSach}</td>
 											        <td class="text-end text-muted">${s.gia}</td>
 											        <td class="text-center">
-											        	<span class="badge bg-secondary rounded-pill">${s.soLuongMua}</span>
+											        	<span class="">${s.soLuongMua}</span>
 											        </td>
-											        <td class="text-end text-danger fw-bold">${s.thanhTien}</td>
+											        <td class="text-end fw-bold">${s.thanhTien}</td>
 											    </tr>
 											</c:forEach>                     
 					                    </tbody>
@@ -365,17 +365,17 @@
 		  <div class="modal-dialog modal-dialog-centered">
 		    <div class="modal-content">
 		      <form action="HtThanhToanController" method="post">
-		        <div class="modal-header bg-danger text-white">
+		        <div class="modal-header">
 		          <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation me-2"></i>Xác nhận xóa</h5>
 		          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
 		        </div>
 		        <div class="modal-body text-center py-4">
-		          <p class="fs-5">Bạn có chắc muốn xóa hóa đơn này?</p>
-		          <h3 class="text-danger fw-bold">#${item.maHoaDon}</h3>
+		          <p class="fs-5">Bạn có chắc chắn muốn xóa hóa đơn này?</p>
+		          <h3 class=" fw-bold">#${item.maHoaDon}</h3>
 		          <input type="hidden" name="maHoaDon" value="${item.maHoaDon}">
 		          <input type="hidden" name="action" value="deleteHD"> 
 		        </div>
-		        <div class="modal-footer justify-content-center">
+		        <div class="modal-footer">
 		          <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
 		          <button type="submit" name="btcsua" value="Xoa" class="btn btn-danger px-4">Xóa ngay</button>
 		        </div>
@@ -386,22 +386,21 @@
 		
 	</c:forEach>
 	
-	<!-- KHU VỰC TOAST MESSAGE (Góc phải màn hình) -->
-	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100">
+	<!-- KHU VỰC TOAST MESSAGE (Đã tối ưu) -->
+	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
 	    <c:if test="${not empty sessionScope.message}">
-	        <div id="liveToast" class="toast hide border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+	        <div id="toastMessage" class="toast border-0 shadow-lg bg-white" role="alert" aria-live="assertive" aria-atomic="true">
 	            <div class="toast-header ${sessionScope.messageType == 'success' ? 'bg-success' : 'bg-primary'} text-white">
 	                <i class="fa-solid ${sessionScope.messageType == 'success' ? 'fa-circle-check' : 'fa-circle-info'} me-2"></i>
 	                <strong class="me-auto">Thông báo</strong>
-	                <small>Vừa xong</small>
+	                <small class="text-white-50">Vừa xong</small>
 	                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
 	            </div>
-	            <div class="toast-body">
+	            <div class="toast-body" style="color: #333; font-weight: 500;">
 	                ${sessionScope.message}
 	            </div>
 	        </div>
-	
-	        <!-- Xóa session ngay sau khi lấy dữ liệu -->
+
 	        <c:remove var="message" scope="session" />
 	        <c:remove var="messageType" scope="session" />
 	    </c:if>
@@ -410,10 +409,11 @@
 	<!-- JS để tự động bật Modal khi Servlet trả về -->
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-	        var toastEl = document.getElementById('liveToast');
+	        var toastEl = document.getElementById('toastMessage');
 	        if (toastEl) {
 	            var toast = new bootstrap.Toast(toastEl, {
-	                delay: 3000
+	                delay: 3000,
+	                autohide: true
 	            });
 	            toast.show();
 	        }

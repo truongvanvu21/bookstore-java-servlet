@@ -27,4 +27,8 @@ public class HoaDonBO {
 	public int deleteHoaDon(long maHD) throws Exception {
 		return hdDAO.deleteHoaDon(maHD);
 	}
+	
+	public ArrayList<HoaDonDTO> getDSHDChuaTTAllKH() throws Exception {
+		return hdDAO.getDSHDChuaTTAllKH();
+	}
 }
