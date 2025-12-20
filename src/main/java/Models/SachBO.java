@@ -49,4 +49,16 @@ public class SachBO {
 	public int deleteSach(String maLoai) throws Exception {
 		return sdao.deleteSach(maLoai);
 	}
+	
+	public ArrayList<ThongKeTopSachDTO> getTop10SachBanChay() throws Exception {
+		return sdao.getTop10SachBanChay();
+	}
+	
+	public ArrayList<ThongKeTopSachDTO> getSachSapHet() throws Exception {
+		return sdao.getSachSapHet();
+	}
+	
+	public ArrayList<ThongKeDoanhThuThangDTO> getDoanhThuThang() throws Exception {
+		return sdao.getDoanhThuThang();
+	}
 }

@@ -16,6 +16,7 @@ import Models.HoaDonBO;
 import Models.KhachHang;
 import Models.LichSuMuaHangBO;
 import Models.LoaiBO;
+import Models.SachBO;
 
 /**
  * Servlet implementation class tcAdminController
@@ -44,6 +45,13 @@ public class tcAdminController extends HttpServlet {
 				return;
 			}
 			HoaDonBO hdBO = new HoaDonBO();
+			SachBO sbo = new SachBO();
+			LoaiBO lbo = new LoaiBO();
+			
+			request.setAttribute("dsSachSapHet", sbo.getSachSapHet());
+			request.setAttribute("dsDoanhThuThang", sbo.getDoanhThuThang());
+			request.setAttribute("ds", lbo.getDoanhThuLoai());
+			request.setAttribute("dsTop10Sach", sbo.getTop10SachBanChay());
 			request.setAttribute("dsHoaDonHomNay", hdBO.getHoaDonHomNay());
 			request.getRequestDispatcher("tc_Admin.jsp").forward(request, response);
 		}

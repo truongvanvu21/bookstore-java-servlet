@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!-- Các import giữ nguyên -->
 <%@ page import = "Models.GioHang" %>
 <%@ page import = "Models.Loai" %>
 <%@ page import = "Models.Sach" %>

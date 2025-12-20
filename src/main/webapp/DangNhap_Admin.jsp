@@ -1,6 +1,3 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.Map"%>
-<%@page import="Models.Loai"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
@@ -11,10 +8,12 @@
     <title>Đăng nhập Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        body { background-color: #f8f9f9; }
+        body { 
+        	background-color: #f8f9f9; 
+        }
         .sidebar {
             min-height: 100vh;
             background-color: #343a40;
@@ -40,6 +39,7 @@
 
 <div class="container-fluid">
     <div class="row">
+        <!-- Sidebar -->
         <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show">
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
@@ -82,34 +82,43 @@
             </div>
         </nav>
 
+        <!-- Form Đăng nhập -->
         <div class="col-md-9 ms-sm-auto col-lg-10 px-4 py-4">
-		    <div class="d-flex justify-content-center">
-		        <form action="dangnhapAdminController" method="post" class="border p-4 rounded bg-white shadow w-100" style="max-width: 460px;">
-		            <h3 class="text-center mb-4">Đăng nhập</h3>
-		            <div class="mt-3">
-		                <label for="username">Tên đăng nhập:</label>
-		                <input class="form-control" id="username" type="text" name="txt_user" required>
-		            </div>
-		            <div class="mt-3">
-		                <label for="password">Mật khẩu:</label>
-		                <input class="form-control" id="password" type="password" name="txt_pass" required>
-		            </div>
-		            <%
-						Integer d  = (Integer)(session.getAttribute("failedCount"));
-						if(d >= 3){
-					%>
-						<img class="mt-2" src="simpleCaptcha.jpg" /></br>
-						<input type="text" name="answer" /><br>
-	 				<% }%>
-		            <button type="submit" class="btn btn-primary mt-4 w-100">Đăng nhập</button>
-		            <p class="text-danger mt-2">
-		                <%= (request.getAttribute("error") != null ? request.getAttribute("error") : "") %>
-			  			<%-- <c:out value="${error}" default=""/> --%>
-		            </p>
-		        </form>
-		    </div>
-		</div>	  
+            <div class="d-flex justify-content-center">
+                <form action="dangnhapAdminController" method="post" class="border p-4 rounded bg-white shadow w-100" style="max-width: 460px;">
+                    <h3 class="text-center mb-4">Đăng nhập Quản trị</h3>
+                    
+                    <div class="mt-3">
+                        <label for="username" class="form-label">Tên đăng nhập:</label>
+                        <input class="form-control" id="username" type="text" name="txt_user" required>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <label for="password" class="form-label">Mật khẩu:</label>
+                        <input class="form-control" id="password" type="password" name="txt_pass" required>
+                    </div>
+
+                    <%-- Xử lý Captcha khi đăng nhập sai quá 3 lần --%>
+                    <c:if test="${sessionScope.failedCount >= 3}">
+                        <div class="mt-3 text-center">
+                            <img class="img-thumbnail mb-2" src="simpleCaptcha.jpg" alt="Captcha" />
+                            <input class="form-control" type="text" name="answer" placeholder="Nhập mã captcha" required>
+                        </div>
+                    </c:if>
+
+                    <button type="submit" class="btn btn-primary mt-4 w-100">Đăng nhập</button>
+                    
+                    <%-- Hiển thị thông báo lỗi --%>
+                    <c:if test="${not empty error}">
+                        <div class="alert alert-danger mt-3 py-2 border-0 small">
+                            <i class="fa-solid fa-circle-exclamation me-2"></i> ${error}
+                        </div>
+                    </c:if>
+                </form>
+            </div>
+        </div>	  
     </div>
 </div>
+
 </body>
 </html>

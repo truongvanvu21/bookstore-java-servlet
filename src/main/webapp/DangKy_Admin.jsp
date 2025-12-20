@@ -94,18 +94,7 @@
 		                <label for="password">Mật khẩu:</label>
 		                <input class="form-control" id="password" type="password" name="password" required>
 		            </div>
-		            <%-- <%
-						Integer d  = (Integer)(session.getAttribute("failedCount"));
-						if(d >= 3){
-					%>
-						<img class="mt-2" src="simpleCaptcha.jpg" /></br>
-						<input type="text" name="answer" /><br>
-	 				<% }%> --%>
 		            <button type="submit" class="btn btn-primary mt-4 w-100">Đăng ký</button>
-		            <%-- <p class="text-danger mt-2">
-		                <%= (request.getAttribute("error") != null ? request.getAttribute("error") : "") %>
-			  			<c:out value="${error}" default=""/>
-		            </p> --%>
 		        </form>
 		    </div>
 		</div>	  

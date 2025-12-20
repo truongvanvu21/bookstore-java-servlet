@@ -19,19 +19,19 @@ public class HoaDonDAO {
 		return kq;
 	}
 	
+	// Lấy ra danh sách hóa đơn hôm nay
 	public ArrayList<ThongKeDonHang>  getHoaDonHomNay() throws Exception {
 		ArrayList<ThongKeDonHang> lst = new ArrayList<ThongKeDonHang>();
 		KetNoi kn = new KetNoi();
 		kn.ketnoi();
-		String sql = "SELECT dbo.KhachHang.makh, dbo.KhachHang.hoten,\r\n"
-				+ "SUM(dbo.ChiTietHoaDon.SoLuongMua) AS tongsoluong, SUM(dbo.sach.gia) AS tonggia,\r\n"
-				+ "SUM(dbo.sach.gia * dbo.ChiTietHoaDon.SoLuongMua) AS thanhtien, dbo.hoadon.MaHoaDon\r\n"
-				+ "FROM dbo.hoadon \r\n"
-				+ "	INNER JOIN dbo.KhachHang ON dbo.hoadon.makh = dbo.KhachHang.makh \r\n"
-				+ "	INNER JOIN dbo.ChiTietHoaDon ON dbo.hoadon.MaHoaDon = dbo.ChiTietHoaDon.MaHoaDon\r\n"
-				+ "	INNER JOIN dbo.sach ON dbo.ChiTietHoaDon.MaSach = dbo.sach.masach\r\n"
-				+ "WHERE (dbo.hoadon.damua = 0) AND (DATEDIFF(day, dbo.hoadon.NgayMua, CAST(GETDATE() AS date)) = 0)\r\n"
-				+ "GROUP BY dbo.KhachHang.makh, dbo.KhachHang.hoten,dbo.hoadon.MaHoaDon, dbo.hoadon.NgayMua";
+		String sql = "SELECT dbo.KhachHang.makh, dbo.KhachHang.hoten,SUM(dbo.ChiTietHoaDon.SoLuongMua) AS tongsoluong, \r\n"
+				+ "		SUM(dbo.sach.gia * dbo.ChiTietHoaDon.SoLuongMua) AS thanhtien, dbo.hoadon.damua , dbo.hoadon.MaHoaDon\r\n"
+				+ "FROM dbo.hoadon\r\n"
+				+ "	INNER JOIN dbo.KhachHang ON dbo.hoadon.makh = dbo.KhachHang.makh\r\n"
+				+ "INNER JOIN dbo.ChiTietHoaDon ON dbo.hoadon.MaHoaDon = dbo.ChiTietHoaDon.MaHoaDon\r\n"
+				+ "INNER JOIN dbo.sach ON dbo.ChiTietHoaDon.MaSach = dbo.sach.masach\r\n"
+				+ "WHERE (DATEDIFF(day, dbo.hoadon.NgayMua, CAST(GETDATE() AS date)) = 0)\r\n"
+				+ "GROUP BY dbo.KhachHang.makh, dbo.KhachHang.hoten,dbo.hoadon.MaHoaDon, dbo.hoadon.damua";
 		
 		PreparedStatement ps = kn.cn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
@@ -39,16 +39,17 @@ public class HoaDonDAO {
 			long maKh = rs.getLong("makh");
 		    String hoTen = rs.getString("hoten");
 		    long tongSoLuong = rs.getLong("tongsoluong");
-		    long tongGia = rs.getLong("tonggia");
 		    long thanhTien = rs.getLong("thanhtien");
+		    boolean daMua = rs.getBoolean("damua");
 		    long maHoaDon = rs.getLong("MaHoaDon");
 		    
-		    lst.add(new ThongKeDonHang(maKh, hoTen, tongSoLuong, tongGia, thanhTien, maHoaDon));
+		    lst.add(new ThongKeDonHang(maKh, hoTen, tongSoLuong, thanhTien, daMua, maHoaDon));
 		}
 		kn.cn.close();
 		return lst;
 	}
 	
+	// Lấy ra danh sách hóa đơn chưa thanh toán của 1 khach hang
 	public ArrayList<HoaDonDTO> getHoaDonDaMuaChuaTT(long maKh) throws Exception {
 		ArrayList<HoaDonDTO> ds = new ArrayList<>();
 		KetNoi kn = new KetNoi();
@@ -119,6 +120,25 @@ public class HoaDonDAO {
 		KetNoi kn  = new KetNoi();
 		kn.ketnoi();
 		
+		// lấy danh sách sách, số lượng trong hóa đơn
+		String sqlGetSach = "SELECT MaSach, SoLuongMua FROM ChiTietHoaDon WHERE MaHoaDon = ?";
+		PreparedStatement psGet = kn.cn.prepareStatement(sqlGetSach);
+		psGet.setLong(1, maHD);
+		ResultSet rs = psGet.executeQuery();
+		
+		String sqlUpdateKho = "UPDATE sach SET soluong = soluong - ? WHERE masach = ?";
+		PreparedStatement psUpdateKho = kn.cn.prepareStatement(sqlUpdateKho);
+		
+		while(rs.next()) {
+			String maSach = rs.getString("MaSach");
+			long soLuongMua = rs.getLong("SoLuongMua");
+			
+			psUpdateKho.setLong(1, soLuongMua);
+			psUpdateKho.setString(2, maSach);
+			
+			psUpdateKho.executeUpdate();
+		}
+		
 		String sql = "UPDATE hoadon SET damua = 1, NgayMua = GETDATE() WHERE MaHoaDon = ?";
 		PreparedStatement ps = kn.cn.prepareStatement(sql);
 		ps.setLong(1, maHD);	
@@ -166,6 +186,38 @@ public class HoaDonDAO {
 				+ "                  KhachHang ON hd.makh = KhachHang.makh\r\n"
 				+ "GROUP BY hd.MaHoaDon, hd.NgayMua, hd.damua, hd.makh, KhachHang.makh, KhachHang.hoten\r\n"
 				+ "HAVING (hd.damua = 0)\r\n"
+				+ "ORDER BY hd.NgayMua DESC";
+		PreparedStatement ps = kn.cn.prepareStatement(sql);
+		
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {
+			long maKh = rs.getLong("makh");
+			String hoTen = rs.getString("hoten");
+			Date ngaymua = rs.getDate("NgayMua");
+			long maHoaDon = rs.getLong("MaHoaDon");
+			long tongtien = rs.getLong("TongTien");
+			
+			HoaDonDTO hd = new HoaDonDTO(maKh, maHoaDon, hoTen, false, ngaymua, tongtien);
+			ds.add(hd);
+		}
+		kn.cn.close();
+		
+		return ds;
+	}
+	
+	// Lấy danh sách hóa đơn đã thanh toán của all khách hàng
+	public ArrayList<HoaDonDTO> getDSHDDaTTAllKH() throws Exception {
+		ArrayList<HoaDonDTO> ds = new ArrayList<>();
+		KetNoi kn = new KetNoi();
+		kn.ketnoi();
+		
+		String sql = "SELECT KhachHang.makh, KhachHang.hoten, hd.NgayMua, SUM(ct.SoLuongMua * s.gia) AS TongTien, hd.MaHoaDon\r\n"
+				+ "FROM     hoadon AS hd INNER JOIN\r\n"
+				+ "                  ChiTietHoaDon AS ct ON hd.MaHoaDon = ct.MaHoaDon INNER JOIN\r\n"
+				+ "                  sach AS s ON ct.MaSach = s.masach INNER JOIN\r\n"
+				+ "                  KhachHang ON hd.makh = KhachHang.makh\r\n"
+				+ "GROUP BY hd.MaHoaDon, hd.NgayMua, hd.damua, hd.makh, KhachHang.makh, KhachHang.hoten\r\n"
+				+ "HAVING (hd.damua = 1)\r\n"
 				+ "ORDER BY hd.NgayMua DESC";
 		PreparedStatement ps = kn.cn.prepareStatement(sql);
 		

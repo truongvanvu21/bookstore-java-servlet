@@ -31,4 +31,8 @@ public class HoaDonBO {
 	public ArrayList<HoaDonDTO> getDSHDChuaTTAllKH() throws Exception {
 		return hdDAO.getDSHDChuaTTAllKH();
 	}
+	
+	public ArrayList<HoaDonDTO> getDSHDDaTTAllKH() throws Exception {
+		return hdDAO.getDSHDDaTTAllKH();
+	}
 }

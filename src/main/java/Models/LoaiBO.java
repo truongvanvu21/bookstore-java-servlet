@@ -28,4 +28,8 @@ public class LoaiBO {
 	public boolean CheckSachTrongLoai(String maLoai) throws Exception { 
 		return ldao.CheckSachTrongLoai(maLoai);
 	}
+	
+	public ArrayList<ThongKeDoanhThuLoaiDTO> getDoanhThuLoai() throws Exception {
+		return ldao.getDoanhThuLoai();
+	}
 }

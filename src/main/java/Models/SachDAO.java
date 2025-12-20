@@ -285,4 +285,78 @@ public class SachDAO {
 		kn.cn.close();
 		return kq;
 	}
+	
+	// Thống kê top 10 sách bán nhiều nhất
+	public ArrayList<ThongKeTopSachDTO> getTop10SachBanChay() throws Exception {
+	    ArrayList<ThongKeTopSachDTO> ds = new ArrayList<>();
+	    KetNoi kn = new KetNoi();
+	    kn.ketnoi();
+
+	    String sql = "SELECT TOP (10) s.masach, s.tensach, SUM(ct.SoLuongMua) AS TongSoLuongBan\r\n"
+	    		+ "FROM     loai AS l INNER JOIN\r\n"
+	    		+ "                  sach AS s ON l.maloai = s.maloai INNER JOIN\r\n"
+	    		+ "                  ChiTietHoaDon AS ct ON s.masach = ct.MaSach INNER JOIN\r\n"
+	    		+ "                  hoadon AS hd ON ct.MaHoaDon = hd.MaHoaDon\r\n"
+	    		+ "WHERE  (hd.damua = 1)\r\n"
+	    		+ "GROUP BY l.maloai, l.tenloai, s.masach, s.tensach\r\n"
+	    		+ "ORDER BY TongSoLuongBan DESC";
+
+	    PreparedStatement ps = kn.cn.prepareStatement(sql);
+	    ResultSet rs = ps.executeQuery();
+
+	    while (rs.next()) {
+	        ds.add(new ThongKeTopSachDTO (rs.getString("masach"), rs.getString("tensach"), rs.getLong("TongSoLuongBan")));
+	    }
+
+	    kn.cn.close();
+	    return ds;
+	}
+	
+	// Thống kê các sách có số lượng tồn kho ( < 10 quyển)
+	public ArrayList<ThongKeTopSachDTO> getSachSapHet() throws Exception {
+	    ArrayList<ThongKeTopSachDTO> ds = new ArrayList<>();
+	    KetNoi kn = new KetNoi();
+	    kn.ketnoi();
+
+	    String sql = "SELECT masach,tensach,soluong\r\n"
+	    		+ "FROM sach\r\n"
+	    		+ "WHERE soluong < 10\r\n"
+	    		+ "ORDER BY soluong ASC";
+
+	    PreparedStatement ps = kn.cn.prepareStatement(sql);
+	    ResultSet rs = ps.executeQuery();
+
+	    while (rs.next()) {
+	        ds.add(new ThongKeTopSachDTO (rs.getString("masach"), rs.getString("tensach"), rs.getLong("soluong")));
+	    }
+
+	    kn.cn.close();
+	    return ds;
+	}
+	
+	// Thống kê doanh thu theo tháng
+	public ArrayList<ThongKeDoanhThuThangDTO> getDoanhThuThang() throws Exception {
+	    ArrayList<ThongKeDoanhThuThangDTO> ds = new ArrayList<>();
+	    KetNoi kn = new KetNoi();
+	    kn.ketnoi();
+
+	    String sql = "SELECT MONTH(hd.NgayMua) AS Thang,SUM(s.Gia * cthd.SoLuongMua) AS DoanhThu\r\n"
+	    		+ "FROM HoaDon hd\r\n"
+	    		+ "	JOIN ChiTietHoaDon cthd ON hd.MaHoaDon = cthd.MaHoaDon\r\n"
+	    		+ "	JOIN Sach s ON cthd.MaSach = s.MaSach\r\n"
+	    		+ "WHERE hd.DaMua = 1 AND YEAR(hd.NgayMua) = YEAR(GETDATE())\r\n"
+	    		+ "GROUP BY MONTH(hd.NgayMua)\r\n"
+	    		+ "ORDER BY Thang;";
+
+	    PreparedStatement ps = kn.cn.prepareStatement(sql);
+	    ResultSet rs = ps.executeQuery();
+
+	    while (rs.next()) {
+	        ds.add(new ThongKeDoanhThuThangDTO (rs.getLong("Thang"), rs.getLong("DoanhThu")));
+	    }
+
+	    kn.cn.close();
+	    return ds;
+	}
+ 
 }

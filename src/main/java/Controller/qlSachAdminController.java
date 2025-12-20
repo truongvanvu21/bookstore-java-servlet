@@ -75,7 +75,7 @@ public class qlSachAdminController extends HttpServlet {
 			
 			System.out.println(ds.size());
 			if(ds.isEmpty()) {
-				request.setAttribute("empty", "Dữ liệu không hợp lệ");
+				request.setAttribute("emptys", "Dữ liệu không hợp lệ");
 			}
 		
 			if ("addsach".equals(action)) {

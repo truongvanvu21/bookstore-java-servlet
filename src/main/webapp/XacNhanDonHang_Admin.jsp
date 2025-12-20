@@ -1,14 +1,11 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="Models.Sach"%>
-<%@page import="Models.Loai"%>
-<%@page import="Models.Admin"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Xác nhận đơn hàng - Admin</title>
+    <title>Xác nhận đơn hàng Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -99,31 +96,33 @@
         <nav class="col-md-3 col-lg-2 sidebar d-md-block show">
             <div class="pt-3">
                 <ul class="nav flex-column">
-                <% Admin user = (Admin)session.getAttribute("username");
-					if(user != null){%>
-	                <li class="nav-item">
-                        <div class="d-flex flex-column align-items-center py-1">
-                        	<i class="fa-solid fa-circle-user" style="font-size: 55px"></i>
-                        	<h5>Admin, <%= user.getTenDangNhap() %></h5>
-                        </div>
-                    </li>
-                    <li class="nav-item border-bottom">
-                        <a class="nav-link text-danger" href="dangxuấtAdminController">
-                            <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
-                        </a>
-                    </li>
-					<%}else{ %>
-					<li class="nav-item">
-                        <a class="nav-link text-danger" href="dangnhapAdminController">
-                            <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
-                        </a>
-                    </li>
-                    <li class="nav-item border-bottom">
-                        <a class="nav-link text-danger" href="dangkyAdminController">
-                            <i class="fa-solid fa-user-plus"></i> Đăng ký
-                        </a>
-                    </li>
-					<%} %>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.username}">
+                        <li class="nav-item">
+                            <div class="d-flex flex-column align-items-center py-1">
+                                <i class="fa-solid fa-circle-user" style="font-size: 55px"></i>
+                                <h5>Admin, ${sessionScope.username.tenDangNhap}</h5>
+                            </div>
+                        </li>
+                        <li class="nav-item border-bottom">
+                            <a class="nav-link text-danger" href="dangxuatAdminController">
+                                <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                            </a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="dangnhapAdminController">
+                                <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                            </a>
+                        </li>
+                        <li class="nav-item border-bottom">
+                            <a class="nav-link text-danger" href="dangkyAdminController">
+                                <i class="fa-solid fa-user-plus"></i> Đăng ký
+                            </a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
 				
                     <li class="nav-item">
                         <a class="nav-link" href="tcAdminController">
@@ -141,12 +140,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="AdminController?action=xacnhan">
+                        <a class="nav-link active" href="xacnhanthanhtoanAdminController">
                             <i class="fas fa-check-circle me-2"></i>Xác nhận đơn hàng
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="AdminController?action=hoadondathanhtoan">
+                        <a class="nav-link" href="lichsuhoadonAdminController">
                             <i class="fas fa-file-invoice-dollar me-2"></i>Hóa đơn đã thanh toán
                         </a>
                     </li>
@@ -172,50 +171,37 @@
 		
 		            <c:forEach var="item" items="${dsHDChuaTTAll}">
 		                <div class="row align-items-center p-3 invoice-item mx-1">
-		                    <!-- Mã KH -->
 		                    <div class="col-md-1 col-12 mb-2 mb-md-0 text-md-center">
 		                    	<div class="d-md-none text-muted small mb-1">Mã KH:</div>
 		                    	<span class="invoice-id">#${item.maKH}</span>
 		                    </div>
-		                    <!-- Họ tên -->
 		                    <div class="col-md-3 col-12 mb-2 mb-md-0 text-md-center">
 		                    	<div class="d-md-none text-muted small mb-1">Họ tên:</div>
 		                    	<span class="text-dark">${item.hoTen}</span>
 		                    </div>
-		                    <!-- Ngày mua -->
 		                    <div class="col-md-2 col-6 mb-2 mb-md-0 text-md-center text-secondary">
 		                    	<div class="d-md-none text-muted small mb-1">Ngày mua:</div>
 		                    	<i class="fa-regular fa-calendar-days me-1"></i>${item.ngayMua}
 		                    </div>
-		                    <!-- Tổng tiền -->
 		                    <div class="col-md-2 col-6 mb-2 mb-md-0 text-end text-md-center">
 		                    	<div class="d-md-none text-muted small mb-1">Tổng tiền:</div>
 		                    	<span class="">${item.tongTien} đ</span>
 		                    </div>
-		                    <!-- Mã HĐ -->
 							<div class="col-md-1 col-6 mb-2 mb-md-0 text-end text-md-center">
 								<div class="d-md-none text-muted small mb-1">Mã HĐ:</div>
 		                    	<span class="">#${item.maHoaDon}</span>
 		                    </div>
-		                    <!-- Thao Tác -->
 							<div class="col-md-3 col-12 mt-2 mt-md-0">
 							    <div class="btn-action-group">
-							        <!-- Nút xem chi tiết (Giữ nguyên) -->
 							        <a href="xacnhanthanhtoanAdminController?maHoaDon=${item.maHoaDon}&maKH=${item.maKH}" class="btn btn-secondary btn-sm-custom" title="Xem chi tiết">
 							            <i class="fa-solid fa-eye"></i>
 							        </a>
-							        
-							        <!-- Nút Xác nhận: Trỏ vào Modal Xác nhận Thanh toán -->
 							        <button type="button" class="btn btn-success btn-sm-custom" data-bs-toggle="modal" data-bs-target="#formXacNhanHD${item.maHoaDon}">
 							            <i class="fa-solid fa-check"></i> Xác nhận
 							        </button>
-							        
-							        <!-- Nút Từ chối: Trỏ vào Modal Từ chối/Xóa đơn hàng -->
 							        <button type="button" class="btn btn-danger btn-sm-custom" data-bs-toggle="modal" data-bs-target="#formTuChoiHD${item.maHoaDon}">
 							            <i class="fa-solid fa-xmark"></i> Từ chối
 							        </button>
-							        
-							        
 							    </div>
 							</div>
 		                </div>
@@ -233,7 +219,6 @@
     </div>
     
     <c:forEach var="item" items="${dsHDChuaTTAll}">     
-	    <!-- 1. Modal Xem chi tiết (Giữ nguyên logic của bạn) -->
 	    <div class="modal fade" id="formXemCT${item.maHoaDon}" tabindex="-1">
 	      <div class="modal-dialog modal-lg modal-dialog-centered">
 	        <div class="modal-content">
@@ -242,7 +227,7 @@
 	            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	          </div>
 	          <div class="modal-body"> 
-	             <form action="HtThanhToanController" method="post">         
+	             <form action="xacnhanthanhtoanAdminController" method="post">         
 	                <c:choose>
 	                    <c:when test="${item.maHoaDon == selectedMaHoaDon}">
 	                        <input type="hidden" name="maHoaDon" value="${item.maHoaDon}">
@@ -298,7 +283,6 @@
 	      </div>
 	    </div>
 	
-	    <!-- 2. Modal Xác nhận Thanh toán (Dành cho nút Xác nhận) -->
 	    <div class="modal fade" id="formXacNhanHD${item.maHoaDon}" tabindex="-1">
 	      <div class="modal-dialog modal-dialog-centered">
 	        <div class="modal-content">
@@ -324,7 +308,6 @@
 	      </div>
 	    </div>
 	
-	    <!-- 3. Modal Từ chối/Xóa (Dành cho nút Từ chối) -->
 	    <div class="modal fade" id="formTuChoiHD${item.maHoaDon}" tabindex="-1">
 	      <div class="modal-dialog modal-dialog-centered">
 	        <div class="modal-content">
@@ -350,7 +333,6 @@
 	    </div>
 	</c:forEach>
 	
-	<!-- KHU VỰC TOAST MESSAGE (Góc phải màn hình) -->
 	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 21">
 	    <c:if test="${not empty sessionScope.message}">
 	        <div id="toastMessage" class="toast hide border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
@@ -364,14 +346,12 @@
 	                ${sessionScope.message}
 	            </div>
 	        </div>
-	
-	        <!-- Xóa session ngay sau khi lấy dữ liệu -->
 	        <c:remove var="message" scope="session" />
 	        <c:remove var="messageType" scope="session" />
 	    </c:if>
 	</div>
 </div>
-<!-- JS để tự động bật Modal khi Servlet trả về -->
+
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 	        var toastEl = document.getElementById('toastMessage');

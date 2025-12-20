@@ -103,4 +103,29 @@ public class LoaiDAO {
 	    return false;
 	}
 
+	// Thống kê doanh thu theo loại
+	public ArrayList<ThongKeDoanhThuLoaiDTO> getDoanhThuLoai() throws Exception {
+	    ArrayList<ThongKeDoanhThuLoaiDTO> ds = new ArrayList<>();
+	    KetNoi kn = new KetNoi();
+	    kn.ketnoi();
+
+	    String sql = "SELECT l.maloai,l.tenloai,SUM(s.gia * cthd.SoLuongMua) AS DoanhThu\r\n"
+	    		+ "FROM loai l\r\n"
+	    		+ "JOIN sach s ON l.maloai = s.maloai\r\n"
+	    		+ "JOIN ChiTietHoaDon cthd ON s.masach = cthd.MaSach\r\n"
+	    		+ "JOIN HoaDon hd ON cthd.MaHoaDon = hd.MaHoaDon\r\n"
+	    		+ "WHERE hd.damua = 1\r\n"
+	    		+ "GROUP BY l.maloai, l.tenloai\r\n"
+	    		+ "ORDER BY DoanhThu DESC";
+
+	    PreparedStatement ps = kn.cn.prepareStatement(sql);
+	    ResultSet rs = ps.executeQuery();
+
+	    while (rs.next()) {
+	        ds.add(new ThongKeDoanhThuLoaiDTO (rs.getString("maloai"), rs.getString("tenloai"), rs.getLong("DoanhThu")));
+	    }
+
+	    kn.cn.close();
+	    return ds;
+	}
 }
