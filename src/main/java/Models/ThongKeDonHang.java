@@ -1,7 +1,7 @@
 package Models;
 
 public class ThongKeDonHang {
-	public ThongKeDonHang(long maKh, String hoTen, long tongSoLuong, long thanhTien, boolean daMua,
+	public ThongKeDonHang(long maKh, String hoTen, long tongSoLuong, long thanhTien, int daMua,
 			long maHoaDon) {
 		super();
 		this.maKh = maKh;
@@ -19,7 +19,7 @@ public class ThongKeDonHang {
     private String hoTen;
     private long tongSoLuong;
     private long thanhTien;
-    private boolean daMua;
+    private int daMua;
     private long maHoaDon;
 	public long getMaKh() {
 		return maKh;
@@ -45,17 +45,18 @@ public class ThongKeDonHang {
 	public void setThanhTien(long thanhTien) {
 		this.thanhTien = thanhTien;
 	}
-	public boolean isDaMua() {
-		return daMua;
-	}
-	public void setDaMua(boolean daMua) {
-		this.daMua = daMua;
-	}
+
 	public long getMaHoaDon() {
 		return maHoaDon;
 	}
 	public void setMaHoaDon(long maHoaDon) {
 		this.maHoaDon = maHoaDon;
+	}
+	public int getDaMua() {
+		return daMua;
+	}
+	public void setDaMua(int daMua) {
+		this.daMua = daMua;
 	}
 
     

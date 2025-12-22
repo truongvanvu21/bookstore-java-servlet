@@ -57,7 +57,7 @@ public class lichsuhoadonAdminController extends HttpServlet {
 	        }
 
 	        // Load danh sách hiển thị
-	        request.setAttribute("dsHDDaTTAll", hdbo.getDSHDDaTTAllKH());
+	        request.setAttribute("dsHDDaXacNhanAll", hdbo.getDSHDDaXacNhanAllKH());
 	        request.getRequestDispatcher("LichSuHoaDon_Admin.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

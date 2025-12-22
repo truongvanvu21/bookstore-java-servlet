@@ -65,16 +65,20 @@
 		   gap: 5px;
 	   }
 	   
-	   .status-paid {
+	   .status-approved{
 		   background-color: #d1e7dd;
 		   color: #0f5132;
 	   }
 	   
-	   .status-unpaid {
+	   .status-pending {
 		   background-color: #fff3cd;
 		   color: #856404;
 	   }
        
+       .status-rejected {
+		   background-color: #ffd6cd;
+			color: #f50101;
+	   }
   	</style>
 </head>
 <body>	
@@ -188,17 +192,26 @@
 									        <td>${ls.gia}</td>
 									        <td>${ls.soLuongMua}</td>
 									        <td>${ls.thanhTien}</td>
-									        <td>
+									        <td>							            
 									            <c:choose>
-									                <c:when test="${ls.daMua}">
-									                    <span class="status-badge status-paid">
-									                    	<i class="fa-regular fa-circle-check"></i>Đã thanh toán
+									                <c:when test="${ls.daMua == 1}">
+									                    <span class="status-badge status-pending">
+									                        <i class="fa-solid fa-hourglass-half"></i> Chờ xác nhận
 									                    </span>
 									                </c:when>
-									                <c:otherwise>
-									                    <span class="status-badge status-unpaid">Chưa thanh toán</span>
-									                </c:otherwise>
-									            </c:choose>
+									                
+									                <c:when test="${ls.daMua == 2}">
+									                    <span class="status-badge status-approved">
+									                        <i class="fa-regular fa-circle-check"></i> Thành công
+									                    </span>
+									                </c:when>
+									
+									                <c:when test="${ls.daMua == 3}">
+									                    <span class="status-badge status-rejected">
+									                        <i class="fa-regular fa-circle-xmark"></i> Bị từ chối
+									                    </span>
+									                </c:when>
+									              </c:choose>
 									        </td>
 									        <td>${ls.ngayMua}</td>
 									    </tr>

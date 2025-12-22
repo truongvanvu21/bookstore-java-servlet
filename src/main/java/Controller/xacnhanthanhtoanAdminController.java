@@ -49,10 +49,10 @@ public class xacnhanthanhtoanAdminController extends HttpServlet {
 	        String maHoaDonStr = request.getParameter("maHoaDon");
 	        String maKHStr = request.getParameter("maKH");
 
-	        // 1. Xử lý Thanh toán
-	        if ("thanhToanHD".equals(action) && maHoaDonStr != null) {
+	        // Xác nhận hóa đơn
+	        if ("xacNhanHD".equals(action) && maHoaDonStr != null) {
 	            long maHoaDon = Long.parseLong(maHoaDonStr);
-	            hdbo.thanhToanHD(maHoaDon);
+	            hdbo.xacNhanHD(maHoaDon);
 	            session.setAttribute("message", "Xác nhận hóa đơn #" + maHoaDon + " thành công!");
 	            session.setAttribute("messageType", "success");
 	            response.sendRedirect("xacnhanthanhtoanAdminController");
@@ -60,9 +60,9 @@ public class xacnhanthanhtoanAdminController extends HttpServlet {
 	        }
 
 	        // 2. Xử lý Xóa (Từ chối)
-	        if ("deleteHD".equals(action) && maHoaDonStr != null) {
+	        if ("tuChoiHD".equals(action) && maHoaDonStr != null) {
 	            long maHoaDon = Long.parseLong(maHoaDonStr);
-	            hdbo.deleteHoaDon(maHoaDon);
+	            hdbo.tuchoiHD(maHoaDon);
 	            session.setAttribute("message", "Từ chối hóa đơn #" + maHoaDon + " thành công!");
 	            session.setAttribute("messageType", "success");
 	            response.sendRedirect("xacnhanthanhtoanAdminController");
@@ -79,7 +79,7 @@ public class xacnhanthanhtoanAdminController extends HttpServlet {
 	        }
 
 	        // Load danh sách hiển thị
-	        request.setAttribute("dsHDChuaTTAll", hdbo.getDSHDChuaTTAllKH());
+	        request.setAttribute("dsHDDaTTAll", hdbo.getDSHDDaTTAllKH());
 	        request.getRequestDispatcher("XacNhanDonHang_Admin.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

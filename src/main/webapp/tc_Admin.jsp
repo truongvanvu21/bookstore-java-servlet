@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -62,21 +62,32 @@
 	        padding: 2px 8px; 
 	        border-radius: 4px; 
         }
-        .status-badge { 
-	        padding: 6px 12px; 
-	        border-radius: 30px; 
-	        font-size: 0.8rem; 
-	        font-weight: 600; 
-	        display: inline-block; 
-        }
-        .status-paid { 
-	        background-color: #d1e7dd; 
-	        color: #0f5132; 
-        }
-        .status-unpaid { 
-	        background-color: #fff3cd; 
-	        color: #856404; 
-        }
+        
+        /* Status */
+       .status-badge {
+		   padding: 6px 12px;
+		   border-radius: 30px;
+		   font-size: 0.75rem;
+		   font-weight: 600;
+		   display: inline-flex;
+		   align-items: center;
+		   gap: 5px;
+	   }
+	   
+	   .status-approved{
+		   background-color: #d1e7dd;
+		   color: #0f5132;
+	   }
+	   
+	   .status-pending {
+		   background-color: #fff3cd;
+		   color: #856404;
+	   }
+       
+       .status-rejected {
+		   background-color: #ffd6cd;
+			color: #f50101;
+	   }
     </style>
 </head>
 <body>
@@ -207,13 +218,24 @@
                                             </td>
                                             <td class="text-center">
                                                 <c:choose>
-                                                    <c:when test="${tk.daMua}">
-                                                        <span class="status-badge status-paid"><i class="fa-solid fa-check me-1"></i>Đã thanh toán</span>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <span class="status-badge status-unpaid"><i class="fa-regular fa-clock me-1"></i>Chưa thanh toán</span>
-                                                    </c:otherwise>
-                                                </c:choose>
+									                <c:when test="${tk.daMua == 1}">
+									                    <span class="status-badge status-pending">
+									                        <i class="fa-solid fa-hourglass-half"></i> Chờ xác nhận
+									                    </span>
+									                </c:when>
+									                
+									                <c:when test="${tk.daMua == 2}">
+									                    <span class="status-badge status-approved">
+									                        <i class="fa-regular fa-circle-check"></i> Thành công
+									                    </span>
+									                </c:when>
+									
+									                <c:when test="${tk.daMua == 3}">
+									                    <span class="status-badge status-rejected">
+									                        <i class="fa-regular fa-circle-xmark"></i> Bị từ chối
+									                    </span>
+									                </c:when>
+									              </c:choose>
                                             </td>
                                             <td class="text-center"><span class="">${tk.maHoaDon}</span></td>
                                         </tr>

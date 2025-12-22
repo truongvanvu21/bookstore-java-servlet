@@ -24,15 +24,27 @@ public class HoaDonBO {
 		return hdDAO.thanhToanHD(maHD);
 	}
 	
+	public int xacNhanHD(long maHD) throws Exception {
+		return hdDAO.xacNhanHD(maHD);
+	}
+	
+	public int tuchoiHD(long maHD) throws Exception {
+		return hdDAO.tuchoiHD(maHD);
+	}
+	
 	public int deleteHoaDon(long maHD) throws Exception {
 		return hdDAO.deleteHoaDon(maHD);
 	}
 	
-	public ArrayList<HoaDonDTO> getDSHDChuaTTAllKH() throws Exception {
-		return hdDAO.getDSHDChuaTTAllKH();
-	}
+//	public ArrayList<HoaDonDTO> getDSHDChuaTTAllKH() throws Exception {
+//		return hdDAO.getDSHDChuaTTAllKH();
+//	}
 	
 	public ArrayList<HoaDonDTO> getDSHDDaTTAllKH() throws Exception {
 		return hdDAO.getDSHDDaTTAllKH();
+	}
+	
+	public ArrayList<HoaDonDTO> getDSHDDaXacNhanAllKH() throws Exception {
+		return hdDAO.getDSHDDaXacNhanAllKH();
 	}
 }

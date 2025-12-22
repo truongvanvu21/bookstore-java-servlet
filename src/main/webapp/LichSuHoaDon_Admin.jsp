@@ -163,7 +163,7 @@
                         <div class="col-md-2">Thao tác</div>
                     </div>
         
-                    <c:forEach var="item" items="${dsHDDaTTAll}">
+                    <c:forEach var="item" items="${dsHDDaXacNhanAll}">
                         <div class="row align-items-center p-3 invoice-item mx-1 text-center">
                             <div class="col-md-1 col-6 invoice-id">#${item.maHoaDon}</div>
                             <div class="col-md-2 col-6"><span>#${item.maKH}</span></div>
@@ -182,7 +182,7 @@
                         </div>
                     </c:forEach>
                         
-                    <c:if test="${empty dsHDDaTTAll}">
+                    <c:if test="${empty dsHDDaXacNhanAll}">
                         <div class="text-center py-5 text-muted">
                             <i class="fa-solid fa-receipt fa-3x mb-3"></i>
                             <p>Hiện không có hóa đơn nào đã thanh toán.</p>
@@ -194,7 +194,7 @@
     </div>
     
     <!-- Modal Chi tiết -->
-    <c:forEach var="item" items="${dsHDDaTTAll}">     
+    <c:forEach var="item" items="${dsHDDaXacNhanAll}">     
         <div class="modal fade" id="formXemCT${item.maHoaDon}" tabindex="-1">
           <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">

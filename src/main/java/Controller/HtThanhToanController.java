@@ -22,83 +22,87 @@ import Models.LoaiBO;
 @WebServlet("/HtThanhToanController")
 public class HtThanhToanController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public HtThanhToanController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {			
+	public HtThanhToanController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");
 
 			HttpSession session = request.getSession();
 			KhachHang user = (KhachHang) session.getAttribute("user");
-			
-			if(user != null) {
+
+			if (user != null) {
 				LoaiBO lbo = new LoaiBO();
 				request.setAttribute("dsLoai", lbo.getLoai());
-				
+
 				HoaDonBO hdbo = new HoaDonBO();
-				request.setAttribute("dsHDTT", hdbo.getHoaDonDaMuaChuaTT(user.getMaKhachHang()));
 				
+				request.setAttribute("dsHDTT",hdbo.getHoaDonDaMuaChuaTT(user.getMaKhachHang()));
+
 				// xem chi tiết
-				String maHoaDonStr = request.getParameter("maHoaDon");				
-				if(maHoaDonStr != null && !maHoaDonStr.isEmpty()) {
+				String maHoaDonStr = request.getParameter("maHoaDon");
+				if (maHoaDonStr != null && !maHoaDonStr.isEmpty()) {
 					long maHoaDon = Long.parseLong(maHoaDonStr);
-					ArrayList<HoaDonChiTietSachDTO> dsSachInHD = hdbo.getDSSachTrongHoaDon(user.getMaKhachHang(), maHoaDon);
+					ArrayList<HoaDonChiTietSachDTO> dsSachInHD = hdbo.getDSSachTrongHoaDon(user.getMaKhachHang(),
+							maHoaDon);
 					request.setAttribute("dsSachInHD", dsSachInHD);
-					
+
 					request.setAttribute("selectedMaHoaDon", maHoaDon);
 				}
-				
+
 				// thanh toán hóa đơn
 				String action = request.getParameter("action");
-	            if ("thanhToanHD".equals(action) && maHoaDonStr != null) {
-	                long maHoaDon = Long.parseLong(maHoaDonStr);
-	                hdbo.thanhToanHD(maHoaDon);
-	                
-	                session.setAttribute("message", "Thanh toán hóa đơn #" + maHoaDon + " thành công!");
-	                session.setAttribute("messageType", "success");
-	                
-	                response.sendRedirect("HtThanhToanController");
-	                return;
-	            }
-	            
-	            // xóa hóa đơn
-	            if ("deleteHD".equals(action) && maHoaDonStr != null) {
-	                long maHoaDon = Long.parseLong(maHoaDonStr);
-	                hdbo.deleteHoaDon(maHoaDon);
-	                
-	                session.setAttribute("message", "Đã xóa hóa đơn #" + maHoaDon + " thành công!");
-	                session.setAttribute("messageType", "success");
-	                
-	                response.sendRedirect("HtThanhToanController");
-	                return;
-	            }
-				
+				if ("thanhToanHD".equals(action) && maHoaDonStr != null) {
+					long maHoaDon = Long.parseLong(maHoaDonStr);
+					hdbo.thanhToanHD(maHoaDon);
+
+					session.setAttribute("message", "Thanh toán hóa đơn #" + maHoaDon + " thành công!");
+					session.setAttribute("messageType", "success");
+
+					response.sendRedirect("HtThanhToanController");
+					return;
+				}
+
+				// xóa hóa đơn
+				if ("deleteHD".equals(action) && maHoaDonStr != null) {
+					long maHoaDon = Long.parseLong(maHoaDonStr);
+					hdbo.deleteHoaDon(maHoaDon);
+
+					session.setAttribute("message", "Đã xóa hóa đơn #" + maHoaDon + " thành công!");
+					session.setAttribute("messageType", "success");
+
+					response.sendRedirect("HtThanhToanController");
+					return;
+				}
+
 				request.getRequestDispatcher("ThanhToan.jsp").forward(request, response);
-			}
-			else {
+			} else {
 				response.sendRedirect("dangnhapController");
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

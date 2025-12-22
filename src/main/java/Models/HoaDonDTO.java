@@ -3,7 +3,7 @@ package Models;
 import java.sql.Date;
 
 public class HoaDonDTO {
-	public HoaDonDTO(long maKH, long maHoaDon, String hoTen, boolean daMua, Date ngayMua, long tongTien) {
+	public HoaDonDTO(long maKH, long maHoaDon, String hoTen, int daMua, Date ngayMua, long tongTien) {
 		super();
 		this.maKH = maKH;
 		this.maHoaDon = maHoaDon;
@@ -20,7 +20,7 @@ public class HoaDonDTO {
 	private long maKH;
 	private long maHoaDon;
 	private String hoTen;
-	private boolean daMua;
+	private int daMua;
 	private Date ngayMua; 
 	private long tongTien;
 	public long getMaHoaDon() {
@@ -28,12 +28,6 @@ public class HoaDonDTO {
 	}
 	public void setMaHoaDon(long maHoaDon) {
 		this.maHoaDon = maHoaDon;
-	}
-	public boolean isDaMua() {
-		return daMua;
-	}
-	public void setDaMua(boolean daMua) {
-		this.daMua = daMua;
 	}
 	public Date getNgayMua() {
 		return ngayMua;
@@ -58,6 +52,12 @@ public class HoaDonDTO {
 	}
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
+	}
+	public int getDaMua() {
+		return daMua;
+	}
+	public void setDaMua(int daMua) {
+		this.daMua = daMua;
 	}
 	
 }

@@ -169,7 +169,7 @@
 		            	<div class="col-md-3">Thao tác</div>
 		            </div>
 		
-		            <c:forEach var="item" items="${dsHDChuaTTAll}">
+		            <c:forEach var="item" items="${dsHDDaTTAll}">
 		                <div class="row align-items-center p-3 invoice-item mx-1">
 		                    <div class="col-md-1 col-12 mb-2 mb-md-0 text-md-center">
 		                    	<div class="d-md-none text-muted small mb-1">Mã KH:</div>
@@ -207,7 +207,7 @@
 		                </div>
 		            </c:forEach>
 			            
-		            <c:if test="${empty dsHDChuaTTAll}">
+		            <c:if test="${empty dsHDDaTTAll}">
 		            	<div class="text-center py-5 text-muted">
 		            		<i class="fa-solid fa-receipt fa-3x mb-3"></i>
 		            		<p>Hiện không có đơn hàng nào chờ xác nhận.</p>
@@ -218,7 +218,7 @@
 		</div>
     </div>
     
-    <c:forEach var="item" items="${dsHDChuaTTAll}">     
+    <c:forEach var="item" items="${dsHDDaTTAll}">     
 	    <div class="modal fade" id="formXemCT${item.maHoaDon}" tabindex="-1">
 	      <div class="modal-dialog modal-lg modal-dialog-centered">
 	        <div class="modal-content">
@@ -231,7 +231,7 @@
 	                <c:choose>
 	                    <c:when test="${item.maHoaDon == selectedMaHoaDon}">
 	                        <input type="hidden" name="maHoaDon" value="${item.maHoaDon}">
-	                        <input type="hidden" name="action" value="thanhToanHD">
+	                        <input type="hidden" name="action" value="xemChiTietHD">
 	                        <div class="card border-0 shadow-sm mb-3">
 	                            <div class="table-responsive">
 	                                 <table class="table table-hover table-detail mb-0">
@@ -297,7 +297,7 @@
 	              <p class="text-muted">Khách hàng: ${item.hoTen}</p>
 	              <input type="hidden" name="maKH" value="${item.maKH}"> 
 	              <input type="hidden" name="maHoaDon" value="${item.maHoaDon}">
-	              <input type="hidden" name="action" value="thanhToanHD"> 
+	              <input type="hidden" name="action" value="xacNhanHD"> 
 	            </div>
 	            <div class="modal-footer">
 	              <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy</button>
@@ -321,7 +321,7 @@
 	              <h3 class="fw-bold">#${item.maHoaDon}</h3>
 	              <input type="hidden" name="maKH" value="${item.maKH}">
 	              <input type="hidden" name="maHoaDon" value="${item.maHoaDon}">
-	              <input type="hidden" name="action" value="deleteHD"> 
+	              <input type="hidden" name="action" value="tuChoiHD"> 
 	            </div>
 	            <div class="modal-footer">
 	              <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Quay lại</button>

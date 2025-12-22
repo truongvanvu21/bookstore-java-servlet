@@ -114,7 +114,7 @@ public class LoaiDAO {
 	    		+ "JOIN sach s ON l.maloai = s.maloai\r\n"
 	    		+ "JOIN ChiTietHoaDon cthd ON s.masach = cthd.MaSach\r\n"
 	    		+ "JOIN HoaDon hd ON cthd.MaHoaDon = hd.MaHoaDon\r\n"
-	    		+ "WHERE hd.damua = 1\r\n"
+	    		+ "WHERE hd.damua = 2\r\n"
 	    		+ "GROUP BY l.maloai, l.tenloai\r\n"
 	    		+ "ORDER BY DoanhThu DESC";
 

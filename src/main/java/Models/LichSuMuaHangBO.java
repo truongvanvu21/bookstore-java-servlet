@@ -15,13 +15,13 @@ public class LichSuMuaHangBO {
 //		return ds;
 //	}
 	
-	public int CapNhatHoaDon(String userName, String pasword) throws Exception {
-		int ketqua = lsmhDAO.CapNhatHoaDon(userName, pasword);
-		return ketqua;
-	}
-	
-	public int CapNhatChiTietHoaDonTHeoMaHd(int maHd, String maSach, long soLuongMua) throws Exception {
-		int ketqua = lsmhDAO.CapNhatChiTietHoaDonTheoMaHd(maHd, maSach, soLuongMua);
-		return ketqua;
-	}
+//	public int CapNhatHoaDon(String userName, String pasword) throws Exception {
+//		int ketqua = lsmhDAO.CapNhatHoaDon(userName, pasword);
+//		return ketqua;
+//	}
+//	
+//	public int CapNhatChiTietHoaDonTHeoMaHd(int maHd, String maSach, long soLuongMua) throws Exception {
+//		int ketqua = lsmhDAO.CapNhatChiTietHoaDonTheoMaHd(maHd, maSach, soLuongMua);
+//		return ketqua;
+//	}
 }

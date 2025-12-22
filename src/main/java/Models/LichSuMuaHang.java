@@ -8,7 +8,7 @@ public class LichSuMuaHang {
 	private long gia;
 	private long soLuongMua;
 	private long thanhTien;
-	private boolean daMua;
+	private int daMua;
 	private Date ngayMua;
 	
 	public LichSuMuaHang() {
@@ -16,7 +16,7 @@ public class LichSuMuaHang {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LichSuMuaHang(long makh, String tenSach, long gia, long soLuongMua, long thanhTien, boolean daMua,
+	public LichSuMuaHang(long makh, String tenSach, long gia, long soLuongMua, long thanhTien, int daMua,
 			Date ngayMua) {
 		super();
 		this.makh = makh;
@@ -58,17 +58,20 @@ public class LichSuMuaHang {
 	public void setThanhTien(long thanhTien) {
 		this.thanhTien = thanhTien;
 	}
-	public boolean isDaMua() {
-		return daMua;
-	}
-	public void setDaMua(boolean daMua) {
-		this.daMua = daMua;
-	}
+
 	public Date getNgayMua() {
 		return ngayMua;
 	}
 	public void setNgayMua(Date ngayMua) {
 		this.ngayMua = ngayMua;
+	}
+
+	public int getDaMua() {
+		return daMua;
+	}
+
+	public void setDaMua(int daMua) {
+		this.daMua = daMua;
 	}
 	
 	

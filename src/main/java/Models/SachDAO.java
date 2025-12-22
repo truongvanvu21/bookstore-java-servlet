@@ -297,7 +297,7 @@ public class SachDAO {
 	    		+ "                  sach AS s ON l.maloai = s.maloai INNER JOIN\r\n"
 	    		+ "                  ChiTietHoaDon AS ct ON s.masach = ct.MaSach INNER JOIN\r\n"
 	    		+ "                  hoadon AS hd ON ct.MaHoaDon = hd.MaHoaDon\r\n"
-	    		+ "WHERE  (hd.damua = 1)\r\n"
+	    		+ "WHERE  (hd.damua = 2)\r\n"
 	    		+ "GROUP BY l.maloai, l.tenloai, s.masach, s.tensach\r\n"
 	    		+ "ORDER BY TongSoLuongBan DESC";
 
@@ -344,7 +344,7 @@ public class SachDAO {
 	    		+ "FROM HoaDon hd\r\n"
 	    		+ "	JOIN ChiTietHoaDon cthd ON hd.MaHoaDon = cthd.MaHoaDon\r\n"
 	    		+ "	JOIN Sach s ON cthd.MaSach = s.MaSach\r\n"
-	    		+ "WHERE hd.DaMua = 1 AND YEAR(hd.NgayMua) = YEAR(GETDATE())\r\n"
+	    		+ "WHERE hd.DaMua = 2 AND YEAR(hd.NgayMua) = YEAR(GETDATE())\r\n"
 	    		+ "GROUP BY MONTH(hd.NgayMua)\r\n"
 	    		+ "ORDER BY Thang;";
 
